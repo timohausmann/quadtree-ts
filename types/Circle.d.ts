@@ -187,7 +187,6 @@ export declare class Circle<CustomDataType = void> implements CircleGeometry, In
     constructor(props: CircleProps<CustomDataType>);
     /**
      * Determine which quadrant this circle belongs to.
-     * @beta this seems slow
      * @param node - Quadtree node to be checked
      * @returns Array containing indexes of intersecting subnodes (0-3 = top-right, top-left, bottom-left, bottom-right)
      */
