@@ -1,8 +1,8 @@
-# quadtree-js 2.0.0-beta.1
+# quadtree-ts 2.0.0-beta.1
 
 ## Please note: this is a beta release.
 
-**If you experience problems** please [raise an issue](https://github.com/timohausmann/quadtree-js/issues) and consider using the [simple but battle-tested v1 in the meantime](https://github.com/timohausmann/quadtree-js/tree/064e56bfd9c3ef2c6ba9fa5f911a4e9cf61493a8) (`npm install @timohausmann/quadtree-js@1.2.5`).
+**If you experience problems** please [raise an issue](https://github.com/timohausmann/quadtree-ts/issues) and consider using the [simple but battle-tested v1 in the meantime](https://github.com/timohausmann/quadtree-ts/tree/064e56bfd9c3ef2c6ba9fa5f911a4e9cf61493a8) (`npm install @timohausmann/quadtree-ts@1.2.5`).
 
 This Javascript Quadtree Library can store and retrieve *Rectangles, Circles and Lines* in a recursive 2D Quadtree. Every Quadtree node can hold a maximum number of objects before it splits into four subnodes. Objects are only stored on leaf nodes (the lowest level). If an object overlaps into multiple leaf nodes, a reference to the object is stored in each node. 
 
@@ -13,36 +13,36 @@ The code was initially based on the Java Methods described on [gamedevelopment.t
 
 ## Demos
 
-* [Simple Demo](https://timohausmann.github.io/quadtree-js/simple.html) – add static objects and see the Quadtree split
-* [Dynamic Demo](https://timohausmann.github.io/quadtree-js/dynamic.html) – continuously track moving objects
-* [Many to many Demo](https://timohausmann.github.io/quadtree-js/many.html) – check all objects against each other
-* [Benchmark v1.2](https://timohausmann.github.io/quadtree-js/test-10000-1.2.0.html) - Performance test with 10.000 objects
-* [Benchmark v1.1.3](https://timohausmann.github.io/quadtree-js/test-10000-1.1.3.html) - Performance test with 10.000 objects (old implementation)
+* [Simple Demo](https://timohausmann.github.io/quadtree-ts/simple.html) – add static objects and see the Quadtree split
+* [Dynamic Demo](https://timohausmann.github.io/quadtree-ts/dynamic.html) – continuously track moving objects
+* [Many to many Demo](https://timohausmann.github.io/quadtree-ts/many.html) – check all objects against each other
+* [Benchmark v1.2](https://timohausmann.github.io/quadtree-ts/test-10000-1.2.0.html) - Performance test with 10.000 objects
+* [Benchmark v1.1.3](https://timohausmann.github.io/quadtree-ts/test-10000-1.1.3.html) - Performance test with 10.000 objects (old implementation)
 
 ## Install
 
-Install this module via [npm](https://www.npmjs.com/package/@timohausmann/quadtree-js) and import or require it:
+Install this module via [npm](https://www.npmjs.com/package/@timohausmann/quadtree-ts) and import or require it:
 
 ```bash
-npm install --save-dev @timohausmann/quadtree-js
+npm install --save-dev @timohausmann/quadtree-ts
 ```
 
 ```javascript
 // ES6
-import { Quadtree } from '@timohausmann/quadtree-js';
+import { Quadtree } from '@timohausmann/quadtree-ts';
 // CommonJS
-const { Quadtree } = require('@timohausmann/quadtree-js');
+const { Quadtree } = require('@timohausmann/quadtree-ts');
 ```
 
-Alternatively, [download the source](https://github.com/timohausmann/quadtree-js/archive/master.zip) and include it the old-fashioned way, or use an awesome CDN like [jsdelivr](https://www.jsdelivr.com/package/npm/@timohausmann/quadtree-js) or [unpkg](https://unpkg.com/browse/@timohausmann/quadtree-js@latest/). (If you only need Rectangles and want to save some bytes, use `quadtree.umd.basic.js` instead):
+Alternatively, [download the source](https://github.com/timohausmann/quadtree-ts/archive/master.zip) and include it the old-fashioned way, or use an awesome CDN like [jsdelivr](https://www.jsdelivr.com/package/npm/@timohausmann/quadtree-ts) or [unpkg](https://unpkg.com/browse/@timohausmann/quadtree-ts@latest/). (If you only need Rectangles and want to save some bytes, use `quadtree.umd.basic.js` instead):
 
 ```html
 <!-- self-hosted -->
 <script src="quadtree.umd.full.js"></script>
 <!-- CDN jsdelivr -->
-<script src="https://cdn.jsdelivr.net/npm/@timohausmann/quadtree-js/dist/quadtree.umd.full.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@timohausmann/quadtree-ts/dist/quadtree.umd.full.js"></script>
 <!-- CDN unpkg -->
-<script src="https://unpkg.com/@timohausmann/quadtree-js/dist/quadtree.umd.full.js"></script>
+<script src="https://unpkg.com/@timohausmann/quadtree-ts/dist/quadtree.umd.full.js"></script>
 ```
 
 
@@ -51,7 +51,7 @@ Alternatively, [download the source](https://github.com/timohausmann/quadtree-js
 Create a new Quadtree:
 
 ```javascript
-import { Quadtree } from '@timohausmann/quadtree-js';
+import { Quadtree } from '@timohausmann/quadtree-ts';
 
 const myTree = new Quadtree({
     width: 800,
@@ -72,7 +72,7 @@ I recommend using low values for `maxLevels` because each level will quadruple t
 
 Insert elements in the Quadtree:
 ```javascript
-import { Rectangle, Circle, Line } from '@timohausmann/quadtree-js';
+import { Rectangle, Circle, Line } from '@timohausmann/quadtree-ts';
 
 const rectangle = new Rectangle({
     x: 100,
@@ -285,7 +285,7 @@ const hero = new Rectangle<PlayerData>({
 ## Browser Support
 
 As of 2.0.0 the UMD bundles use ES6 features (e.g. classes) that are not supported by IE11 and below. 
-For legacy browser support, please polyfill the code on your own or download a [1.x version](https://github.com/timohausmann/quadtree-js/releases). 
+For legacy browser support, please polyfill the code on your own or download a [1.x version](https://github.com/timohausmann/quadtree-ts/releases). 
 
 
 ## Development scripts
@@ -327,8 +327,8 @@ For legacy browser support, please polyfill the code on your own or download a [
 * Add Quadtree.prototype.insertMany
 * Add Point class
 * Publish to npm
-* Add module to retrieve nodes additionally to objects ([#17](https://github.com/timohausmann/quadtree-js/issues/17))
-* Add module to update objects [#12](https://github.com/timohausmann/quadtree-js/issues/12)
+* Add module to retrieve nodes additionally to objects ([#17](https://github.com/timohausmann/quadtree-ts/issues/17))
+* Add module to update objects [#12](https://github.com/timohausmann/quadtree-ts/issues/12)
 
 
 ## Changelog
@@ -344,7 +344,7 @@ For legacy browser support, please polyfill the code on your own or download a [
 
 ### 1.2.5
 
-* Typescript Definition File Bugfix (thanks to [pietrovismara](https://github.com/timohausmann/quadtree-js/pull/18))
+* Typescript Definition File Bugfix (thanks to [pietrovismara](https://github.com/timohausmann/quadtree-ts/pull/18))
 
 ### 1.2.4
 
@@ -375,4 +375,4 @@ This implementation now stores objects exclusively on leaf nodes and thus differ
 
 ## Update single objects
 
-There is a (currently deprecated) [quadtree-js hitman branch](https://github.com/timohausmann/quadtree-js/tree/hitman) available that allows you to update and remove single objects. This may be handy when most of the objects in your Quadtree are static. Please leave an emoji or a comment [here](https://github.com/timohausmann/quadtree-js/issues/12) to put more pressure on the issue.
+There is a (currently deprecated) [quadtree-ts hitman branch](https://github.com/timohausmann/quadtree-ts/tree/hitman) available that allows you to update and remove single objects. This may be handy when most of the objects in your Quadtree are static. Please leave an emoji or a comment [here](https://github.com/timohausmann/quadtree-ts/issues/12) to put more pressure on the issue.

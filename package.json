@@ -1,5 +1,5 @@
 {
-  "name": "@timohausmann/quadtree-js",
+  "name": "@timohausmann/quadtree-ts",
   "version": "2.0.0-beta.1",
   "description": "Another quadtree implementation for javascript",
   "author": "Timo Hausmann",
@@ -20,10 +20,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/timohausmann/quadtree-js.git"
+    "url": "https://github.com/timohausmann/quadtree-ts.git"
   },
   "bugs": {
-    "url": "https://github.com/timohausmann/quadtree-js/issues"
+    "url": "https://github.com/timohausmann/quadtree-ts/issues"
   },
   "keywords": [
     "quadtree"
