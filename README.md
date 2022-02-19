@@ -1,23 +1,12 @@
 # quadtree-ts 2.0.0-beta.1
 
-## Please note: this is a beta release.
+This is a fork of lightweight [quadtree-js](https://github.com/timohausmann/quadtree-js) using Typescript and supporting primitives and overall better extensibility.
 
-**If you experience problems** please [raise an issue](https://github.com/timohausmann/quadtree-ts/issues) and consider using the [simple but battle-tested v1 in the meantime](https://github.com/timohausmann/quadtree-ts/tree/064e56bfd9c3ef2c6ba9fa5f911a4e9cf61493a8) (`npm install @timohausmann/quadtree-ts@1.2.5`).
+This Quadtree Library can store and retrieve *Rectangles, Circles and Lines* in a recursive 2D Quadtree. Every Quadtree node can hold a maximum number of objects before it splits into four subnodes. Objects are only stored on leaf nodes (the lowest level). If an object overlaps into multiple leaf nodes, a reference to the object is stored in each node. 
 
-This Javascript Quadtree Library can store and retrieve *Rectangles, Circles and Lines* in a recursive 2D Quadtree. Every Quadtree node can hold a maximum number of objects before it splits into four subnodes. Objects are only stored on leaf nodes (the lowest level). If an object overlaps into multiple leaf nodes, a reference to the object is stored in each node. 
+## Examples
 
-The code was initially based on the Java Methods described on [gamedevelopment.tutsplus.com by Steven Lambert](https://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374) and underwent some revisions since.
-
-> Many games require the use of collision detection algorithms to determine when two objects have collided, but these algorithms are often expensive operations and can greatly slow down a game. One way to speed things up is to reduce the number of checks that have to be made. Two objects that are at opposite ends of the screen can not possibly collide, so there is no need to check for a collision between them. This is where a quadtree comes into play.
-
-
-## Demos
-
-* [Simple Demo](https://timohausmann.github.io/quadtree-ts/simple.html) – add static objects and see the Quadtree split
-* [Dynamic Demo](https://timohausmann.github.io/quadtree-ts/dynamic.html) – continuously track moving objects
-* [Many to many Demo](https://timohausmann.github.io/quadtree-ts/many.html) – check all objects against each other
-* [Benchmark v1.2](https://timohausmann.github.io/quadtree-ts/test-10000-1.2.0.html) - Performance test with 10.000 objects
-* [Benchmark v1.1.3](https://timohausmann.github.io/quadtree-ts/test-10000-1.1.3.html) - Performance test with 10.000 objects (old implementation)
+[See examples hosted here](https://timohausmann.github.io/quadtree-ts/examples/simple/) or located in `/docs/examples`.
 
 ## Install
 
@@ -246,7 +235,7 @@ Check out the examples for more information.
 
 ## Typescript
 
-All types can be imported and are documented in the API docs. 
+All types can be imported and are documented in the [API docs](https://timohausmann.github.io/quadtree-ts/documentation/). 
 
 The Quadtree class accepts an optional type argument `<ObjectsType>` for all inserted/retrieved objects:
 
@@ -310,7 +299,7 @@ For legacy browser support, please polyfill the code on your own or download a [
 
 
 
-## Migration Guide 1.2.x 👉 2.0.0
+## Migration Guide quadtree-js 👉 quadtree-ts
 
 * Named exports only: 👉 Change `import Quadtree ...` to `import { Quadtree } ...`
 * Quadtree constructor: `maxObjects` and `maxLevels` are now named properties. Also, `x` and `y` are now optional. 👉 Change `new Quadtree({x: 0, y: 0, width: 100, height: 100}, 5, 2);` to `new Quadtree({width: 100, height: 100, maxObjects: 5, maxLevels: 2});`
@@ -322,7 +311,6 @@ For legacy browser support, please polyfill the code on your own or download a [
 ## Dev Todos
 
 * Add integrity hash to script tags
-* Update and publish jsdoc/tsdoc
 * Add explanations to primitives example
 * Add Quadtree.prototype.insertMany
 * Add Point class
