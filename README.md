@@ -1,6 +1,6 @@
 # quadtree-ts 2.0.0-beta.1
 
-This is a fork of lightweight [quadtree-js](https://github.com/timohausmann/quadtree-js) using Typescript and supporting primitives and overall better extensibility.
+This is a fork of [@timohausmann/quadtree-js](https://github.com/timohausmann/quadtree-js) using Typescript and supporting primitives and overall better extensibility.
 
 This Quadtree Library can store and retrieve *Rectangles, Circles and Lines* in a recursive 2D Quadtree. Every Quadtree node can hold a maximum number of objects before it splits into four subnodes. Objects are only stored on leaf nodes (the lowest level). If an object overlaps into multiple leaf nodes, a reference to the object is stored in each node. 
 
@@ -274,7 +274,7 @@ const hero = new Rectangle<PlayerData>({
 ## Browser Support
 
 As of 2.0.0 the UMD bundles use ES6 features (e.g. classes) that are not supported by IE11 and below. 
-For legacy browser support, please polyfill the code on your own or download a [1.x version](https://github.com/timohausmann/quadtree-ts/releases). 
+For legacy browser support, please polyfill the code on your own or use [quadtree-js](https://github.com/timohausmann/quadtree-js). 
 
 
 ## Development scripts
@@ -315,52 +315,5 @@ For legacy browser support, please polyfill the code on your own or download a [
 * Add Quadtree.prototype.insertMany
 * Add Point class
 * Publish to npm
-* Add module to retrieve nodes additionally to objects ([#17](https://github.com/timohausmann/quadtree-ts/issues/17))
-* Add module to update objects [#12](https://github.com/timohausmann/quadtree-ts/issues/12)
-
-
-## Changelog
-
-### 2.0.0
-
-* Refactored Codebase to ES6 and Typescript
-* Added modular classes for Rectangle, Circle, Line
-* Added dedicated bundle files for CJS, EMS and UMD
-* Added Unit Tests with Jest
-* Added ESLint
-* Added API docs with Typedoc
-
-### 1.2.5
-
-* Typescript Definition File Bugfix (thanks to [pietrovismara](https://github.com/timohausmann/quadtree-ts/pull/18))
-
-### 1.2.4
-
-* Added definition files for Typescript support
-* JSDoc Fixes
-
-### 1.2.3
-
-* Using github.io for examples (docs)
-* CDN URLs
-
-### 1.2.2
-
-* Removed `grunt` dev dependency, now using `uglify-js` to minifiy
-
-### 1.2.1
-
-* Allow float boundaries for Quads
-* Simplified getIndex function
-
-### 1.2.0
-
-This implementation now stores objects exclusively on leaf nodes and thus differs from the tutorial it's based on. Objects, that overlap into multiple subnodes are now referenced in each matching subnode instead of their parent node. This drastically reduces the collision candidates. Prior to 1.2.0, overlapping objects were stored in parent nodes. 
-
-### 1.1.3
-
-* Support for npm and `module.exports`
-
-## Update single objects
-
-There is a (currently deprecated) [quadtree-ts hitman branch](https://github.com/timohausmann/quadtree-ts/tree/hitman) available that allows you to update and remove single objects. This may be handy when most of the objects in your Quadtree are static. Please leave an emoji or a comment [here](https://github.com/timohausmann/quadtree-ts/issues/12) to put more pressure on the issue.
+* Add module to retrieve nodes additionally to objects ([#17](https://github.com/timohausmann/quadtree-js/issues/17))
+* Add module to update objects [#12](https://github.com/timohausmann/quadtree-js/issues/12)
