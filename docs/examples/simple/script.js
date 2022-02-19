@@ -25,6 +25,9 @@ let myObjects = [];
 const canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d');
 
+// start with one object
+handleAdd();
+
 // EventListener for mousemove
 canvas.addEventListener('mousemove', function(e) {
     

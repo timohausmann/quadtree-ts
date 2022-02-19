@@ -6,15 +6,33 @@ const tree = new Quadtree({
 });
 
 
-// A Rectangle representing the mouse cursor.
+// Mouse cursor
 // We only use this object to retrieve objects (it is not in the Quadtree)
-const myCursor = new Quadtree.Rectangle({
-    x : 0,
-    y : 0,
-    width : 28,
-    height : 28,
-    maxObjects: 4,
-});
+const cursors = {
+    rectangle: new Quadtree.Rectangle({
+        x: 0,
+        y: 0,
+        width: 64,
+        height: 64
+    }),
+    circle: new Quadtree.Circle({
+        x: 0, 
+        y: 0, 
+        r: 48
+    }),
+    line: new Quadtree.Line({
+        x1: 50, 
+        y1: 50, 
+        x2: 150,
+        y2: 150,
+        data: {
+            x: 0,
+            y: 0
+        }
+    })
+};
+
+let myCursor = cursors.rectangle;
 
 // Keep track of mouseover state
 let isMouseover = false;
@@ -35,8 +53,16 @@ canvas.addEventListener('mousemove', function(e) {
     isMouseover = true;
     
     // Position cursor at mouse position
-    myCursor.x = e.offsetX - (myCursor.width/2);
-    myCursor.y = e.offsetY - (myCursor.height/2);
+    if(myCursor === cursors.line) {
+        myCursor.data.x = e.offsetX;
+        myCursor.data.y = e.offsetY;
+    } else if(myCursor === cursors.circle) {
+        myCursor.x = e.offsetX;
+        myCursor.y = e.offsetY;
+    } else {			
+        myCursor.x = e.offsetX - (myCursor.width/2);
+        myCursor.y = e.offsetY - (myCursor.height/2);	
+    }
     
     // Reset myObjects check flag
     myObjects.forEach(obj => obj.data.check = false);
@@ -60,6 +86,15 @@ canvas.addEventListener('mouseout', function(e) {
     draw();
 });
 document.getElementById('btnClear').addEventListener('click', handleClear);
+
+document.querySelectorAll('button[id^="cursor-"]').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const name = e.target.id.split('-')[1];
+        if(cursors[name]) {
+            myCursor = cursors[name];
+        }
+    });
+});
 
 // Add Rectangles
 addRectangle.addEventListener('click', () => {
@@ -158,8 +193,31 @@ function draw() {
     drawQuadtree(tree, ctx);
 
     if(isMouseover) {
-        ctx.strokeStyle = 'rgba(127,255,212,1)';
-        ctx.strokeRect(myCursor.x, myCursor.y, myCursor.width, myCursor.height);
+
+        ctx.fillStyle = 'rgba(255,255,255,0.25)';
+
+        if(myCursor === cursors.line) {
+            const t = performance.now();
+            myCursor.x1 = myCursor.data.x - 75;
+            myCursor.y1 = myCursor.data.y - 75;
+            myCursor.x2 = myCursor.data.x + 75;
+            myCursor.y2 = myCursor.data.y + 75;
+
+            ctx.save();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+            ctx.beginPath();
+            ctx.moveTo(myCursor.x1, myCursor.y1);
+            ctx.lineTo(myCursor.x2, myCursor.y2);
+            ctx.stroke();
+            ctx.restore();
+        } else if(myCursor === cursors.circle) {
+            ctx.beginPath();
+            ctx.arc(myCursor.x, myCursor.y, myCursor.r, 0, 2 * Math.PI);
+            ctx.fill();
+        } else {
+            ctx.fillRect(myCursor.x, myCursor.y, myCursor.width, myCursor.height);
+        }
     }
 };
 

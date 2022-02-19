@@ -33,7 +33,7 @@ const cursors = {
 }
 
 let particles = [],
-    particleAmount = 512,
+    particleAmount = 128,
     quadtreeEnabled = true,
     isMouseover = false,
     myCursor = cursors.rectangle;

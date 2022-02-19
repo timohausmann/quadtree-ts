@@ -159,6 +159,8 @@ function init() {
         800: 8,
         1600: 4,
         3200: 2,
+        4800: 2,
+        6400: 1,
     };
     const objSize = sizeMap[amount];
 
