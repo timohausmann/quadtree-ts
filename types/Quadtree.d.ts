@@ -117,7 +117,7 @@ export declare class Quadtree<ObjectsType extends Rectangle | Circle | Line | In
      * @param obj - object to be checked
      * @returns Array containing indexes of intersecting subnodes (0-3 = top-right, top-left, bottom-left, bottom-right).
      */
-    getIndex(obj: ObjectsType): number[];
+    getIndex(obj: Rectangle|Circle|Line|Indexable): number[];
     /**
      * Split the node into 4 subnodes.
      * @internal
@@ -159,7 +159,7 @@ export declare class Quadtree<ObjectsType extends Rectangle | Circle | Line | In
      * @param obj - geometry to be checked
      * @returns Array containing all detected objects.
      */
-    retrieve(obj: ObjectsType): ObjectsType[];
+    retrieve(obj: Rectangle|Circle|Line|Indexable): ObjectsType[];
     /**
      * Clear the Quadtree.
      *

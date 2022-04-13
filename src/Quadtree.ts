@@ -147,7 +147,7 @@ export class Quadtree<ObjectsType extends Rectangle|Circle|Line|Indexable> {
      * @param obj - object to be checked
      * @returns Array containing indexes of intersecting subnodes (0-3 = top-right, top-left, bottom-left, bottom-right).
      */
-    getIndex(obj:ObjectsType): number[] {
+    getIndex(obj:Rectangle|Circle|Line|Indexable): number[] {
         return obj.qtIndex(this.bounds);
     }
 
@@ -255,7 +255,7 @@ export class Quadtree<ObjectsType extends Rectangle|Circle|Line|Indexable> {
      * @param obj - geometry to be checked
      * @returns Array containing all detected objects.
      */
-    retrieve(obj:ObjectsType): ObjectsType[] {
+    retrieve(obj:Rectangle|Circle|Line|Indexable): ObjectsType[] {
         
         const indexes = this.getIndex(obj);
         let returnObjects = this.objects;
