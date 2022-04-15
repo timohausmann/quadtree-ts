@@ -1,6 +1,6 @@
 {
   "name": "@timohausmann/quadtree-ts",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "description": "Another quadtree implementation for javascript",
   "author": "Timo Hausmann",
   "license": "MIT",
