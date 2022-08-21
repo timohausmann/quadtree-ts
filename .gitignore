@@ -1,2 +1,12 @@
 node_modules
 .DS_Store
+
+
+# VsCode workspaces
+*.code-workspace
+
+# Optional eslint cache
+.eslintcache
+
+# TypeScript cache
+*.tsbuildinfo

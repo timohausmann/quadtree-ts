@@ -196,42 +196,42 @@ export class Circle<CustomDataType = void> implements CircleGeometry, Indexable 
      * @param props - Circle properties
      * @typeParam CustomDataType - Type of the custom data property (optional, inferred automatically).
      */
-    constructor(props:CircleProps<CustomDataType>) {
+    constructor(props: CircleProps<CustomDataType>) {
 
         this.x = props.x;
         this.y = props.y;
         this.r = props.r;
         this.data = props.data;
     }
-    
+
     /**
      * Determine which quadrant this circle belongs to.
      * @param node - Quadtree node to be checked
      * @returns Array containing indexes of intersecting subnodes (0-3 = top-right, top-left, bottom-left, bottom-right)
      */
-    qtIndex(node:NodeGeometry): number[] {
+    qtIndex(node: NodeGeometry): number[] {
 
-        const indexes:number[] = [],
-            w2 = node.width/2,
-            h2 = node.height/2,
+        const indexes: number[] = [],
+            w2 = node.width / 2,
+            h2 = node.height / 2,
             x2 = node.x + w2,
             y2 = node.y + h2;
 
         //an array of node origins where the array index equals the node index
         const nodes = [
-            [x2,     node.y],
+            [x2, node.y],
             [node.x, node.y],
             [node.x, y2],
-            [x2,     y2],
+            [x2, y2],
         ];
 
         //test all nodes for circle intersections
-        for(let i=0; i<nodes.length; i++) {
-            if(Circle.intersectRect(this.x, this.y, this.r, nodes[i][0], nodes[i][1], nodes[i][0] + w2, nodes[i][1] + h2)) {
+        for (let i = 0; i < nodes.length; i++) {
+            if (Circle.intersectRect(this.x, this.y, this.r, nodes[i][0], nodes[i][1], nodes[i][0] + w2, nodes[i][1] + h2)) {
                 indexes.push(i);
             }
         }
-     
+
         return indexes;
     }
 
@@ -264,7 +264,7 @@ export class Circle<CustomDataType = void> implements CircleGeometry, Indexable 
      * console.log(circle, rect, 'intersect?', intersect);
      * ```
      */
-    static intersectRect(x:number, y:number, r:number, minX:number, minY:number, maxX:number, maxY:number): boolean {
+    static intersectRect(x: number, y: number, r: number, minX: number, minY: number, maxX: number, maxY: number): boolean {
         const deltaX = x - Math.max(minX, Math.min(x, maxX));
         const deltaY = y - Math.max(minY, Math.min(y, maxY));
         return (deltaX * deltaX + deltaY * deltaY) < (r * r);

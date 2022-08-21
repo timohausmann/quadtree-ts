@@ -214,7 +214,7 @@ export class Line<CustomDataType = void> implements LineGeometry, Indexable {
      * @param props - Line properties
      * @typeParam CustomDataType - Type of the custom data property (optional, inferred automatically).
      */
-    constructor(props:LineProps<CustomDataType>) {
+    constructor(props: LineProps<CustomDataType>) {
 
         this.x1 = props.x1;
         this.y1 = props.y1;
@@ -222,37 +222,37 @@ export class Line<CustomDataType = void> implements LineGeometry, Indexable {
         this.y2 = props.y2;
         this.data = props.data;
     }
-    
+
     /**
      * Determine which quadrant this line belongs to.
      * @beta
      * @param node - Quadtree node to be checked
      * @returns Array containing indexes of intersecting subnodes (0-3 = top-right, top-left, bottom-left, bottom-right)
      */
-    qtIndex(node:NodeGeometry): number[] {
+    qtIndex(node: NodeGeometry): number[] {
 
-        const indexes:number[] = [],
-            w2 = node.width/2,
-            h2 = node.height/2,
+        const indexes: number[] = [],
+            w2 = node.width / 2,
+            h2 = node.height / 2,
             x2 = node.x + w2,
             y2 = node.y + h2;
 
         //an array of node origins where the array index equals the node index
         const nodes = [
-            [x2,     node.y],
+            [x2, node.y],
             [node.x, node.y],
             [node.x, y2],
-            [x2,     y2],
+            [x2, y2],
         ];
 
         //test all nodes for line intersections
-        for(let i=0; i<nodes.length; i++) {
-            if(Line.intersectRect(this.x1, this.y1, this.x2, this.y2, 
+        for (let i = 0; i < nodes.length; i++) {
+            if (Line.intersectRect(this.x1, this.y1, this.x2, this.y2,
                 nodes[i][0], nodes[i][1], nodes[i][0] + w2, nodes[i][1] + h2)) {
                 indexes.push(i);
             }
         }
-     
+
         return indexes;
     }
 
@@ -275,8 +275,8 @@ export class Line<CustomDataType = void> implements LineGeometry, Indexable {
      * @param maxY - rectangle end Y
      * @returns true if the line segment intersects the axis aligned rectangle
      */
-    static intersectRect(x1:number, y1:number, x2:number, y2:number, minX:number, minY:number, maxX:number, maxY:number): boolean {
-    
+    static intersectRect(x1: number, y1: number, x2: number, y2: number, minX: number, minY: number, maxX: number, maxY: number): boolean {
+
         // Completely outside
         if ((x1 <= minX && x2 <= minX) || (y1 <= minY && y2 <= minY) || (x1 >= maxX && x2 >= maxX) || (y1 >= maxY && y2 >= maxY))
             return false;
@@ -284,21 +284,21 @@ export class Line<CustomDataType = void> implements LineGeometry, Indexable {
         // Single point inside
         if ((x1 >= minX && x1 <= maxX && y1 >= minY && y1 <= maxY) || (x2 >= minX && x2 <= maxX && y2 >= minY && y2 <= maxY))
             return true;
-    
+
         const m = (y2 - y1) / (x2 - x1);
-    
+
         let y = m * (minX - x1) + y1;
         if (y > minY && y < maxY) return true;
-    
+
         y = m * (maxX - x1) + y1;
         if (y > minY && y < maxY) return true;
-    
+
         let x = (minY - y1) / m + x1;
         if (x > minX && x < maxX) return true;
-    
+
         x = (maxY - y1) / m + x1;
         if (x > minX && x < maxX) return true;
-    
+
         return false;
     }
 }
