@@ -255,24 +255,29 @@ export class Quadtree<ObjectsType extends Rectangle | Circle | Line | Indexable>
      * @param obj - geometry to be checked
      * @returns Array containing all detected objects.
      */
-    retrieve(obj: Rectangle | Circle | Line | Indexable): ObjectsType[] {
+    retrieve(obj: Rectangle | Circle | Line | Indexable, results: ObjectsType[] = []): ObjectsType[] {
 
-        const indexes = this.getIndex(obj);
-        let returnObjects = this.objects;
+        const objects = this.objects;
+        if (objects.length) {
 
-        //if we have subnodes, retrieve their objects
-        if (this.nodes.length) {
-            for (let i = 0; i < indexes.length; i++) {
-                returnObjects = returnObjects.concat(this.nodes[indexes[i]].retrieve(obj));
+            for (let i = objects.length - 1; i >= 0; i--) {
+                if (results.indexOf(objects[i]) < 0) {
+                    results.push(objects[i]);
+                }
             }
+
+        } else if (this.nodes.length) {
+
+            //if we have subnodes, retrieve their objects
+            const indexes = this.getIndex(obj);
+
+            for (let i = 0; i < indexes.length; i++) {
+                this.nodes[indexes[i]].retrieve(obj, results);
+            }
+
         }
 
-        //remove duplicates
-        returnObjects = returnObjects.filter(function (item, index) {
-            return returnObjects.indexOf(item) >= index;
-        });
-
-        return returnObjects;
+        return results;
     }
 
 
