@@ -113,6 +113,12 @@ export class Quadtree<ObjectsType extends Rectangle|Circle|Line|Indexable> {
     nodes: Quadtree<ObjectsType>[];
 
     /**
+     * Map of object ids to symbols.
+     * @readonly
+     */
+    objectIdMap: WeakMap<ObjectsType, symbol>;
+
+    /**
      * Quadtree Constructor
      * @param props - bounds and properties of the node
      * @param level - depth level (internal use only, required for subnodes)
@@ -131,6 +137,8 @@ export class Quadtree<ObjectsType extends Rectangle|Circle|Line|Indexable> {
         
         this.objects = [];
         this.nodes   = [];
+
+        this.objectIdMap = new WeakMap();
     }
     
     /**
@@ -206,6 +214,8 @@ export class Quadtree<ObjectsType extends Rectangle|Circle|Line|Indexable> {
      * @param obj - Object to be added.
      */
     insert(obj:ObjectsType): void {
+        // set object id, for remove duplicates
+        this.objectIdMap.set(obj, Symbol());
         
         //if we have subnodes, call insert on matching subnodes
         if(this.nodes.length) {
@@ -267,10 +277,19 @@ export class Quadtree<ObjectsType extends Rectangle|Circle|Line|Indexable> {
             }
         }
 
-        //remove duplicates
-        returnObjects = returnObjects.filter(function(item, index) {
-            return returnObjects.indexOf(item) >= index;
-        });
+        // remove duplicates
+        if (this.level === 0) {
+            const existIds = new Map();
+            const copyObjects = returnObjects;
+            returnObjects = [];
+            copyObjects.forEach((item) => {
+                const id = this.objectIdMap.get(item);
+                if (!existIds.has(id)) {
+                    returnObjects.push(item);
+                    existIds.set(id, true);
+                }
+            });
+        }
     
         return returnObjects;
     }
