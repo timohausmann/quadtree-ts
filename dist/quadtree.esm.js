@@ -42,7 +42,6 @@ class Quadtree {
         this.level = level;
         this.objects = [];
         this.nodes = [];
-        this.objectIdMap = new WeakMap();
     }
     /**
      * Get the quadrant (subnode indexes) an object belongs to.
@@ -107,8 +106,6 @@ class Quadtree {
      * @param obj - Object to be added.
      */
     insert(obj) {
-        // set object id, for remove duplicates
-        this.objectIdMap.set(obj, Symbol());
         //if we have subnodes, call insert on matching subnodes
         if (this.nodes.length) {
             const indexes = this.getIndex(obj);
@@ -160,14 +157,13 @@ class Quadtree {
         }
         // remove duplicates
         if (this.level === 0) {
-            const existIds = new Map();
+            const existObject = new WeakMap();
             const copyObjects = returnObjects;
             returnObjects = [];
-            copyObjects.forEach((item) => {
-                const id = this.objectIdMap.get(item);
-                if (!existIds.has(id)) {
-                    returnObjects.push(item);
-                    existIds.set(id, true);
+            copyObjects.forEach((object) => {
+                if (!existObject.has(object)) {
+                    returnObjects.push(object);
+                    existObject.set(object, true);
                 }
             });
         }
