@@ -1,8 +1,5 @@
 {
     "extends": "@tsconfig/recommended/tsconfig.json",
     "include": ["src/**/*"],
-    "exclude": ["node_modules", "**/*.spec.ts"],
-    "compilerOptions": {
-      "target": "ES2015"
-    }
+    "exclude": ["node_modules", "**/*.spec.ts"]
 }

@@ -157,15 +157,7 @@ class Quadtree {
         }
         // remove duplicates
         if (this.level === 0) {
-            const existObject = new WeakMap();
-            const copyObjects = returnObjects;
-            returnObjects = [];
-            copyObjects.forEach((object) => {
-                if (!existObject.has(object)) {
-                    returnObjects.push(object);
-                    existObject.set(object, true);
-                }
-            });
+            return Array.from(new Set(returnObjects));
         }
         return returnObjects;
     }
