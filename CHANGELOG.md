@@ -6,12 +6,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.0.0] - 2023-11-06
+## [2.0.1] - 2023-11-06
+
+### Changed
+* added "exports.type" to package.json to fix a Webpack issue ([#9](https://github.com/timohausmann/quadtree-ts/issues/9))
+
+## [2.0.0] - 2023-11-05
 
 ### Changed
 * merged PR: upgrade remove duplicates performance ([#8](https://github.com/timohausmann/quadtree-ts/pull/8))
 
-## [2.0.0-beta.3] - 2023-11-06
+## [2.0.0-beta.3] - 2023-11-05
 
 ### Added
 * added "exports" to package.json to fix a Webpack issue ([#6](https://github.com/timohausmann/quadtree-ts/issues/6))
