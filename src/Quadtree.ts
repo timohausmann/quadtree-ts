@@ -206,7 +206,7 @@ export class Quadtree<ObjectsType extends Rectangle|Circle|Line|Indexable> {
      * @param obj - Object to be added.
      */
     insert(obj:ObjectsType): void {
-        
+
         //if we have subnodes, call insert on matching subnodes
         if(this.nodes.length) {
             const indexes = this.getIndex(obj);
@@ -267,11 +267,11 @@ export class Quadtree<ObjectsType extends Rectangle|Circle|Line|Indexable> {
             }
         }
 
-        //remove duplicates
-        returnObjects = returnObjects.filter(function(item, index) {
-            return returnObjects.indexOf(item) >= index;
-        });
-    
+        // remove duplicates
+        if (this.level === 0) {
+            return  Array.from(new Set(returnObjects));
+        }
+
         return returnObjects;
     }
 

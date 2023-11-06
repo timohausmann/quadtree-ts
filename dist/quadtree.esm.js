@@ -155,10 +155,10 @@ class Quadtree {
                 returnObjects = returnObjects.concat(this.nodes[indexes[i]].retrieve(obj));
             }
         }
-        //remove duplicates
-        returnObjects = returnObjects.filter(function (item, index) {
-            return returnObjects.indexOf(item) >= index;
-        });
+        // remove duplicates
+        if (this.level === 0) {
+            return Array.from(new Set(returnObjects));
+        }
         return returnObjects;
     }
     /**
