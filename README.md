@@ -65,6 +65,12 @@ const myTree = new Quadtree({
 });
 ``` 
 
+The tree and each node may have four subnodes that are arranged like this:
+
+|  II   |   I   |
+|-------|-------|
+|  III  |   IV  |
+
 Optional properties: 
 * `maxObjects` – defines how many objects a node can hold before it splits 
 * `maxLevels` – defines the deepest level subnode

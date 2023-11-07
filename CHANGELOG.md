@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.0] - 2023-11-07
+
+* Added `Quadtree.update()` – Update an object already in the tree (shorthand for remove and insert).
+* Added basic tests for update
+* Added example for update 
+
 ## [2.1.0] - 2023-11-07
 
 ### Added
