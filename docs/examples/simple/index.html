@@ -144,6 +144,21 @@ document.querySelector('#btnAdd').addEventListener('click', () => {
     draw();
 });
 
+// Add event listener to a button to remove existing Rectangles
+document.querySelector('#btnRemove').addEventListener('click', () => {
+    if(myObjects.length > 0) {
+        
+        // Remove from Quadtree first
+        tree.remove(myObjects[0]);
+        
+        // Remove from datakeeping
+        myObjects.splice(0, 1);
+
+        // Update the scene
+        draw();
+    }
+});
+
 // Create a "cursor" Rectangle to retrieve objects from the Quadtree
 const myCursor = new Quadtree.Rectangle({
     x: 0,
