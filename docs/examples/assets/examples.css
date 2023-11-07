@@ -144,6 +144,7 @@ canvas {
     border-radius: 0.125rem;
     background: rgba(32,32,32,0.2);
     padding: 0.25rem 0.5rem;
+    margin-bottom: 0.25rem;
     transition: background-color 0.4s;
     cursor: pointer;
 }

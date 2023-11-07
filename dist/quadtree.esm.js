@@ -62,9 +62,9 @@ class Quadtree {
     }
     /**
      * Split the node into 4 subnodes.
-     * @internal
+     * @internal Mostly for internal use! You should only call this yourself if you know what you are doing.
      *
-     * @example Mostly for internal use! You should only call this yourself if you know what you are doing:
+     * @example Manual split:
      * ```typescript
      * const tree = new Quadtree({ width: 100, height: 100 });
      * tree.split();
@@ -160,6 +160,90 @@ class Quadtree {
             return Array.from(new Set(returnObjects));
         }
         return returnObjects;
+    }
+    /**
+     * Remove an object from the tree.
+     * @beta
+     *
+     * @example
+     * ```typescript
+     * const tree = new Quadtree({ width: 100, height: 100 });
+     * const circle = new Circle({ x: 25, y: 25, r: 10, data: 512 });
+     * tree.insert(circle);
+     * tree.remove(circle);
+     * ```
+     *
+     * @example Bulk fast removals and final cleanup:
+     * ```typescript
+     * const tree = new Quadtree({ width: 100, height: 100 });
+     * const rects: Rectangle[] = [];
+     *  for(let i=0; i<20; i++) {
+     *    rects[i] = new Rectangle({ x: 25, y: 25, width: 50, height: 50 });
+     *    tree.insert(rects[i]);
+     *  }
+     *  for(let i=rects.length-1; i>0; i--) {
+     *    //fast=true – just remove the object, keep empty subnodes
+     *    //fast=false – cleanup empty subnodes (default)
+     *    const fast = (i !== 0);
+     *    tree.remove(rects[i], fast);
+     *  }
+     *
+     * tree.remove(rects[0], false);
+     * ```
+     *
+     * @param obj - Object to be removed.
+     * @param fast - Set to true to increase performance temporarily by preventing cleanup of empty subnodes (optional, default: false).
+     * @returns Weather or not the object was removed from THIS node (no recursive check).
+     */
+    remove(obj, fast = false) {
+        const indexOf = this.objects.indexOf(obj);
+        // remove objects
+        if (indexOf > -1) {
+            this.objects.splice(indexOf, 1);
+        }
+        // remove from all subnodes
+        for (let i = 0; i < this.nodes.length; i++) {
+            this.nodes[i].remove(obj);
+        }
+        // remove all empty subnodes
+        if (this.level === 0 && !fast) {
+            this.join();
+        }
+        return (indexOf !== -1);
+    }
+    /**
+     * The opposite of a split: try to merge and dissolve subnodes.
+     * @beta
+     * @internal Mostly for internal use! You should only call this yourself if you know what you are doing.
+     *
+     * @example Manual join:
+     * ```typescript
+     * const tree = new Quadtree({ width: 100, height: 100 });
+     * tree.split();
+     * console.log(tree.nodes.length); // 4
+     * tree.join();
+     * console.log(tree.nodes.length); // 0
+     * ```
+     *
+     * @returns The objects from this node and all subnodes combined.
+     */
+    join() {
+        // recursive join
+        let allObjects = Array.from(this.objects);
+        for (let i = 0; i < this.nodes.length; i++) {
+            const bla = this.nodes[i].join();
+            allObjects = allObjects.concat(bla);
+        }
+        // remove duplicates
+        const uniqueObjects = Array.from(new Set(allObjects));
+        if (uniqueObjects.length <= this.maxObjects) {
+            this.objects = uniqueObjects;
+            for (let i = 0; i < this.nodes.length; i++) {
+                this.nodes[i].objects = [];
+            }
+            this.nodes = [];
+        }
+        return allObjects;
     }
     /**
      * Clear the Quadtree.

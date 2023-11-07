@@ -77,7 +77,22 @@ document.getElementById('btnAddBig').addEventListener('click', function() {
 document.getElementById('btnAdd10').addEventListener('click', function() {
     for(var i=0;i<10;i++) { handleAdd() };
 });
+document.getElementById('btnRemove').addEventListener('click', handleRemove);
+document.getElementById('btnRemove10').addEventListener('click', function() {
+    for(var i=0;i<Math.min(myObjects.length, 10);i++) { handleRemove() };
+});
 document.getElementById('btnClear').addEventListener('click', handleClear);
+
+function handleRemove() {
+    if(myObjects.length > 0) {
+        // remove from tree first
+        tree.remove(myObjects[0]);
+        // remove from datakeeping
+        myObjects.splice(0, 1);
+        // redraw
+        draw();
+    }
+}
 
 // Add a random object to our simulation
 function handleAdd(rect) {

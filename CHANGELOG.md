@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2023-11-07
+
+### Added
+* Added `Quadtree.remove()` – based on [jonit-dev](https://github.com/jonit-dev)'s fork ([#1](https://github.com/timohausmann/quadtree-ts/issues/1)) – remove single objects from the tree. 
+* Added `Quadtree.join()` – The opposite of a split(): try to merge subnodes into this main node.
+* Added "remove" buttons to simple example
+* Added tests for remove and join
+* Added tests for default objects and nodes property
+
+### Changed
+* Rollup copies the browser build into /docs/examples/assets
+* Examples load this local copy instead of the CDN url
+
 ## [2.0.1] - 2023-11-06
 
 ### Changed

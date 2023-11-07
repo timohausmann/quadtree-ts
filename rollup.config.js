@@ -2,6 +2,7 @@ import pkg from './package.json';
 import typescript from '@rollup/plugin-typescript';
 import { terser } from "rollup-plugin-terser";
 import banner2 from 'rollup-plugin-banner2';
+import copy from 'rollup-plugin-copy';
 
 export default [
 	// browser-friendly UMD build (all)
@@ -17,6 +18,11 @@ export default [
 			typescript({ tsconfig: './tsconfig.json' }), // so Rollup can convert TypeScript to JavaScript
             terser(), //minify,
             banner2(() => `/* ${pkg.repository.url} v${pkg.version} */\n`),
+            copy({
+                targets: [
+                  { src: pkg.browser, dest: 'docs/examples/assets/' },
+                ]
+            }),
 		]
 	},
 	// browser-friendly UMD build (basic)

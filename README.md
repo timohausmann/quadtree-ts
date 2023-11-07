@@ -299,6 +299,7 @@ For legacy browser support, please polyfill the code on your own or use [quadtre
 * `npm run lint` to run eslint
 * `npm run docs` to create docs
 * `npm run dts` to create definition files
+* `npx jest -i './test/Quadtree/Quadtree.remove.test.ts' -t 'removes objects from subnodes'` run a single test
 
 Folder structure
 

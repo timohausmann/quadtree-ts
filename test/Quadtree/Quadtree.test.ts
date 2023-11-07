@@ -10,6 +10,8 @@ describe('Quadtree.constructor', () => {
         expect(tree.maxObjects).toBe(10);
         expect(tree.maxLevels).toBe(4);
         expect(tree.level).toBe(0);
+        expect(tree.objects).toEqual([]);
+        expect(tree.nodes).toEqual([]);
     });
 
     test('applies all arguments', () => {
