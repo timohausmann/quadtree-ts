@@ -33,7 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0] - 2023-11-05
 
 ### Changed
-* merged PR: upgrade remove duplicates performance ([#8](https://github.com/timohausmann/quadtree-ts/pull/8))
+* merged PR: Performance improvement of `retrieve()` (was O(n^2), now O(n)) ([#8](https://github.com/timohausmann/quadtree-ts/pull/8))
 
 ## [2.0.0-beta.3] - 2023-11-05
 
