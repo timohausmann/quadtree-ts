@@ -1,6 +1,6 @@
 {
   "name": "@timohausmann/quadtree-ts",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Quadtree Typescript Implementation",
   "author": "Timo Hausmann",
   "license": "MIT",
@@ -50,8 +50,8 @@
     "typescript": "^4.3.5"
   },
   "exports": {
+    "types": "./types/index.esm.d.ts",
     "node": "./dist/quadtree.cjs.js",
-    "default": "./dist/quadtree.esm.js",
-    "types": "./types/index.esm.d.ts"
+    "default": "./dist/quadtree.esm.js"
   }
 }

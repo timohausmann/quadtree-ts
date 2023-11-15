@@ -6,10 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.2] - 2023-11-15
+
+### Changed
+* Fixed exports.default order in package.json ([#12](https://github.com/timohausmann/quadtree-ts/issues/12))
+
 ## [2.2.1] - 2023-11-15
 
 ### Changed
-
 * Version bump for npm release
 
 ## [2.2.0] - 2023-11-07
