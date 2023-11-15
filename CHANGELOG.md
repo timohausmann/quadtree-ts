@@ -6,8 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.2.1] - 2023-11-15
+
+### Changed
+
+* Version bump for npm release
+
 ## [2.2.0] - 2023-11-07
 
+### Added
 * Added `Quadtree.update()` – Update an object already in the tree (shorthand for remove and insert).
 * Added basic tests for update
 * Added example for update 
