@@ -39,6 +39,7 @@
     "@typescript-eslint/parser": "^4.29.3",
     "eslint": "^7.32.0",
     "eslint-plugin-tsdoc": "^0.2.14",
+    "expect-type": "^1.2.2",
     "jest": "^27.1.0",
     "rollup": "^2.56.2",
     "rollup-plugin-banner2": "^1.2.2",
