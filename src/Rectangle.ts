@@ -45,7 +45,7 @@ export interface RectangleProps<CustomDataType = void> extends RectangleGeometry
  * Class representing a Rectangle
  * @typeParam CustomDataType - Type of the custom data property (optional, inferred automatically).
  *
- * @example Without custom data (JS/TS):
+ * @example Without custom data
  * ```typescript
  * const rectangle = new Rectangle({
  *   x: 10,
@@ -55,7 +55,7 @@ export interface RectangleProps<CustomDataType = void> extends RectangleGeometry
  * });
  * ```
  *
- * @example With custom data (JS/TS):
+ * @example With custom data
  * ```javascript
  * const rectangle = new Rectangle({
  *   x: 10,
@@ -69,11 +69,11 @@ export interface RectangleProps<CustomDataType = void> extends RectangleGeometry
  * });
  * ```
  *
- * @example With custom data (TS):
+ * @example With custom data (TS)
  * ```typescript
  * interface ObjectData {
- *   name: string
- *   health: number
+ *   name: string;
+ *   health: number;
  * }
  * const entity: ObjectData = {
  *   name: 'Jane',
@@ -99,28 +99,21 @@ export interface RectangleProps<CustomDataType = void> extends RectangleGeometry
  * rectangle2.data = entity;
  * ```
  *
- * @example With custom class extending Rectangle (implements {@link RectangleGeometry} (x, y, width, height)):
+ * @example With custom class extending Rectangle
  * ```javascript
- * // extending inherits the qtIndex method
+ * // extending inherits the geometry's properties and the qtIndex method
  * class Box extends Rectangle {
  *
- *   constructor(props) {
- *     // call super to set x, y, width, height (and data, if given)
- *     super(props);
- *     this.content = props.content;
+ *   constructor(content, x, y, width, height) {
+ *     super({ x, y, width, height });
+ *     this.content = content;
  *   }
  * }
  *
- * const box = new Box({
- *   content: 'Gravity Boots',
- *   x: 10,
- *   y: 20,
- *   width: 30,
- *   height: 40,
- * });
+ * const box = new Box('Gravity Boots', 10, 20, 30, 40);
  * ```
  *
- * @example With custom class and mapping {@link RectangleGeometry}:
+ * @example With custom class and mapping
  * ```javascript
  * // no need to extend if you don't implement RectangleGeometry
  * class Box {
@@ -146,10 +139,9 @@ export interface RectangleProps<CustomDataType = void> extends RectangleGeometry
  * const box = new Box('Gravity Boots');
  * ```
  *
- * @example With custom object that implements {@link RectangleGeometry}:
+ * @example With custom object (implements RectangleGeometry)
  * ```javascript
  * const player = {
- *   name: 'Jane',
  *   health: 100,
  *   x: 10,
  *   y: 20,
@@ -159,7 +151,7 @@ export interface RectangleProps<CustomDataType = void> extends RectangleGeometry
  * });
  * ```
  *
- * @example With custom object and mapping {@link RectangleGeometry}:
+ * @example With custom object and mapping
  * ```javascript
  * // Note: this is not recommended but possible.
  * // Using this technique, each object would have it's own qtIndex method.

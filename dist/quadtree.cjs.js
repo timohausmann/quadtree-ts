@@ -1,7 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 /**
  * Class representing a Quadtree node.
  *
@@ -41,8 +39,8 @@ class Quadtree {
             width: props.width,
             height: props.height,
         };
-        this.maxObjects = (typeof props.maxObjects === 'number') ? props.maxObjects : 10;
-        this.maxLevels = (typeof props.maxLevels === 'number') ? props.maxLevels : 4;
+        this.maxObjects = typeof props.maxObjects === 'number' ? props.maxObjects : 10;
+        this.maxLevels = typeof props.maxLevels === 'number' ? props.maxLevels : 4;
         this.level = level;
         this.objects = [];
         this.nodes = [];
@@ -213,7 +211,7 @@ class Quadtree {
         if (this.level === 0 && !fast) {
             this.join();
         }
-        return (indexOf !== -1);
+        return indexOf !== -1;
     }
     /**
      * Update an object already in the tree (shorthand for remove and insert).
@@ -258,9 +256,7 @@ class Quadtree {
         this.insert(obj);
     }
     /**
-     * The opposite of a split: try to merge and dissolve subnodes.
-     * @beta
-     * @internal Mostly for internal use! You should only call this yourself if you know what you are doing.
+     * The opposite of a split: merge and dissolve subnodes (when total object count doesn't exceed maxObjects).
      *
      * @example Manual join:
      * ```typescript
@@ -277,8 +273,8 @@ class Quadtree {
         // recursive join
         let allObjects = Array.from(this.objects);
         for (let i = 0; i < this.nodes.length; i++) {
-            const bla = this.nodes[i].join();
-            allObjects = allObjects.concat(bla);
+            const tmp = this.nodes[i].join();
+            allObjects = allObjects.concat(tmp);
         }
         // remove duplicates
         const uniqueObjects = Array.from(new Set(allObjects));
@@ -317,7 +313,7 @@ class Quadtree {
  * Class representing a Rectangle
  * @typeParam CustomDataType - Type of the custom data property (optional, inferred automatically).
  *
- * @example Without custom data (JS/TS):
+ * @example Without custom data
  * ```typescript
  * const rectangle = new Rectangle({
  *   x: 10,
@@ -327,7 +323,7 @@ class Quadtree {
  * });
  * ```
  *
- * @example With custom data (JS/TS):
+ * @example With custom data
  * ```javascript
  * const rectangle = new Rectangle({
  *   x: 10,
@@ -341,11 +337,11 @@ class Quadtree {
  * });
  * ```
  *
- * @example With custom data (TS):
+ * @example With custom data (TS)
  * ```typescript
  * interface ObjectData {
- *   name: string
- *   health: number
+ *   name: string;
+ *   health: number;
  * }
  * const entity: ObjectData = {
  *   name: 'Jane',
@@ -371,28 +367,21 @@ class Quadtree {
  * rectangle2.data = entity;
  * ```
  *
- * @example With custom class extending Rectangle (implements {@link RectangleGeometry} (x, y, width, height)):
+ * @example With custom class extending Rectangle
  * ```javascript
- * // extending inherits the qtIndex method
+ * // extending inherits the geometry's properties and the qtIndex method
  * class Box extends Rectangle {
  *
- *   constructor(props) {
- *     // call super to set x, y, width, height (and data, if given)
- *     super(props);
- *     this.content = props.content;
+ *   constructor(content, x, y, width, height) {
+ *     super({ x, y, width, height });
+ *     this.content = content;
  *   }
  * }
  *
- * const box = new Box({
- *   content: 'Gravity Boots',
- *   x: 10,
- *   y: 20,
- *   width: 30,
- *   height: 40,
- * });
+ * const box = new Box('Gravity Boots', 10, 20, 30, 40);
  * ```
  *
- * @example With custom class and mapping {@link RectangleGeometry}:
+ * @example With custom class and mapping
  * ```javascript
  * // no need to extend if you don't implement RectangleGeometry
  * class Box {
@@ -418,10 +407,9 @@ class Quadtree {
  * const box = new Box('Gravity Boots');
  * ```
  *
- * @example With custom object that implements {@link RectangleGeometry}:
+ * @example With custom object (implements RectangleGeometry)
  * ```javascript
  * const player = {
- *   name: 'Jane',
  *   health: 100,
  *   x: 10,
  *   y: 20,
@@ -431,7 +419,7 @@ class Quadtree {
  * });
  * ```
  *
- * @example With custom object and mapping {@link RectangleGeometry}:
+ * @example With custom object and mapping
  * ```javascript
  * // Note: this is not recommended but possible.
  * // Using this technique, each object would have it's own qtIndex method.
@@ -466,7 +454,7 @@ class Rectangle {
      * @returns Array containing indexes of intersecting subnodes (0-3 = top-right, top-left, bottom-left, bottom-right)
      */
     qtIndex(node) {
-        const indexes = [], boundsCenterX = node.x + (node.width / 2), boundsCenterY = node.y + (node.height / 2);
+        const indexes = [], boundsCenterX = node.x + node.width / 2, boundsCenterY = node.y + node.height / 2;
         const startIsNorth = this.y < boundsCenterY, startIsWest = this.x < boundsCenterX, endIsEast = this.x + this.width > boundsCenterX, endIsSouth = this.y + this.height > boundsCenterY;
         //top-right quad
         if (startIsNorth && endIsEast) {
@@ -492,7 +480,7 @@ class Rectangle {
  * Class representing a Circle.
  * @typeParam CustomDataType - Type of the custom data property (optional, inferred automatically).
  *
- * @example Without custom data (JS/TS):
+ * @example Without custom data
  * ```typescript
  * const circle = new Circle({
  *   x: 100,
@@ -501,7 +489,7 @@ class Rectangle {
  * });
  * ```
  *
- * @example With custom data (JS/TS):
+ * @example With custom data
  * ```javascript
  * const circle = new Circle({
  *   x: 100,
@@ -514,11 +502,11 @@ class Rectangle {
  * });
  * ```
  *
- * @example With custom data (TS):
+ * @example With custom data (TS)
  * ```typescript
  * interface ObjectData {
- *   name: string
- *   health: number
+ *   name: string;
+ *   health: number;
  * }
  * const entity: ObjectData = {
  *   name: 'Jane',
@@ -542,27 +530,21 @@ class Rectangle {
  * circle2.data = entity;
  * ```
  *
- * @example With custom class extending Circle (implements {@link CircleGeometry} (x, y, r)):
+ * @example With custom class extending Circle
  * ```javascript
- * // extending inherits the qtIndex method
+ * // extending inherits the geometry's properties and the qtIndex method
  * class Bomb extends Circle {
  *
- *   constructor(props) {
- *     // call super to set x, y, r (and data, if given)
- *     super(props);
- *     this.countdown = props.countdown;
+ *   constructor(countdown, x, y, r) {
+ *     super({ x, y, r });
+ *     this.countdown = countdown;
  *   }
  * }
  *
- * const bomb = new Bomb({
- *   countdown: 5,
- *   x: 10,
- *   y: 20,
- *   r: 30,
- * });
+ * const bomb = new Bomb(5, 10, 20, 30);
  * ```
  *
- * @example With custom class and mapping {@link CircleGeometry}:
+ * @example With custom class and mapping
  * ```javascript
  * // no need to extend if you don't implement CircleGeometry
  * class Bomb {
@@ -587,10 +569,9 @@ class Rectangle {
  * const bomb = new Bomb(5);
  * ```
  *
- * @example With custom object that implements {@link CircleGeometry}:
+ * @example With custom object (implements CircleGeometry)
  * ```javascript
  * const player = {
- *   name: 'Jane',
  *   health: 100,
  *   x: 10,
  *   y: 20,
@@ -599,7 +580,7 @@ class Rectangle {
  * });
  * ```
  *
- * @example With custom object and mapping {@link CircleGeometry}:
+ * @example With custom object and mapping
  * ```javascript
  * // Note: this is not recommended but possible.
  * // Using this technique, each object would have it's own qtIndex method.
@@ -685,7 +666,7 @@ class Circle {
     static intersectRect(x, y, r, minX, minY, maxX, maxY) {
         const deltaX = x - Math.max(minX, Math.min(x, maxX));
         const deltaY = y - Math.max(minY, Math.min(y, maxY));
-        return (deltaX * deltaX + deltaY * deltaY) < (r * r);
+        return deltaX * deltaX + deltaY * deltaY < r * r;
     }
 }
 
@@ -693,7 +674,7 @@ class Circle {
  * Class representing a Line
  * @typeParam CustomDataType - Type of the custom data property (optional, inferred automatically).
  *
- * @example Without custom data (JS/TS):
+ * @example Without custom data
  * ```typescript
  * const line = new Line({
  *   x1: 10,
@@ -703,7 +684,7 @@ class Circle {
  * });
  * ```
  *
- * @example With custom data (JS/TS):
+ * @example With custom data
  * ```javascript
  * const line = new Line({
  *   x1: 10,
@@ -717,11 +698,11 @@ class Circle {
  * });
  * ```
  *
- * @example With custom data (TS):
+ * @example With custom data (TS)
  * ```typescript
  * interface ObjectData {
- *   name: string
- *   health: number
+ *   name: string;
+ *   health: number;
  * }
  * const entity: ObjectData = {
  *   name: 'Jane',
@@ -747,28 +728,21 @@ class Circle {
  * line2.data = entity;
  * ```
  *
- * @example With custom class extending Line (implements {@link LineGeometry} (x1, y1, x2, y2)):
+ * @example With custom class extending Line
  * ```javascript
- * // extending inherits the qtIndex method
+ * // extending inherits the geometry's properties and the qtIndex method
  * class Laser extends Line {
  *
- *   constructor(props) {
- *     // call super to set x1, y1, x2, y2 (and data, if given)
- *     super(props);
- *     this.color = props.color;
+ *   constructor(color, x1, y1, x2, y2) {
+ *     super({ x1, y1, x2, y2 });
+ *     this.color = color;
  *   }
  * }
  *
- * const laser = new Laser({
- *   color: 'green',
- *   x1: 10,
- *   y1: 20,
- *   x2: 30,
- *   y2: 40,
- * });
+ * const laser = new Laser('green', 10, 20, 30, 40);
  * ```
  *
- * @example With custom class and mapping {@link LineGeometry}:
+ * @example With custom class and mapping
  * ```javascript
  * // no need to extend if you don't implement LineGeometry
  * class Laser {
@@ -794,10 +768,9 @@ class Circle {
  * const laser = new Laser('green');
  * ```
  *
- * @example With custom object that implements {@link LineGeometry}:
+ * @example With custom object (implements LineGeometry)
  * ```javascript
  * const player = {
- *   name: 'Jane',
  *   health: 100,
  *   x1: 10,
  *   y1: 20,
@@ -807,7 +780,7 @@ class Circle {
  * });
  * ```
  *
- * @example With custom object and mapping {@link LineGeometry}:
+ * @example With custom object and mapping
  * ```javascript
  * // Note: this is not recommended but possible.
  * // Using this technique, each object would have it's own qtIndex method.
@@ -885,10 +858,14 @@ class Line {
      */
     static intersectRect(x1, y1, x2, y2, minX, minY, maxX, maxY) {
         // Completely outside
-        if ((x1 <= minX && x2 <= minX) || (y1 <= minY && y2 <= minY) || (x1 >= maxX && x2 >= maxX) || (y1 >= maxY && y2 >= maxY))
+        if ((x1 <= minX && x2 <= minX) ||
+            (y1 <= minY && y2 <= minY) ||
+            (x1 >= maxX && x2 >= maxX) ||
+            (y1 >= maxY && y2 >= maxY))
             return false;
         // Single point inside
-        if ((x1 >= minX && x1 <= maxX && y1 >= minY && y1 <= maxY) || (x2 >= minX && x2 <= maxX && y2 >= minY && y2 <= maxY))
+        if ((x1 >= minX && x1 <= maxX && y1 >= minY && y1 <= maxY) ||
+            (x2 >= minX && x2 <= maxX && y2 >= minY && y2 <= maxY))
             return true;
         const m = (y2 - y1) / (x2 - x1);
         let y = m * (minX - x1) + y1;

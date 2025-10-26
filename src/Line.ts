@@ -45,7 +45,7 @@ export interface LineProps<CustomDataType = void> extends LineGeometry {
  * Class representing a Line
  * @typeParam CustomDataType - Type of the custom data property (optional, inferred automatically).
  *
- * @example Without custom data (JS/TS):
+ * @example Without custom data
  * ```typescript
  * const line = new Line({
  *   x1: 10,
@@ -55,7 +55,7 @@ export interface LineProps<CustomDataType = void> extends LineGeometry {
  * });
  * ```
  *
- * @example With custom data (JS/TS):
+ * @example With custom data
  * ```javascript
  * const line = new Line({
  *   x1: 10,
@@ -69,11 +69,11 @@ export interface LineProps<CustomDataType = void> extends LineGeometry {
  * });
  * ```
  *
- * @example With custom data (TS):
+ * @example With custom data (TS)
  * ```typescript
  * interface ObjectData {
- *   name: string
- *   health: number
+ *   name: string;
+ *   health: number;
  * }
  * const entity: ObjectData = {
  *   name: 'Jane',
@@ -99,28 +99,21 @@ export interface LineProps<CustomDataType = void> extends LineGeometry {
  * line2.data = entity;
  * ```
  *
- * @example With custom class extending Line (implements {@link LineGeometry} (x1, y1, x2, y2)):
+ * @example With custom class extending Line
  * ```javascript
- * // extending inherits the qtIndex method
+ * // extending inherits the geometry's properties and the qtIndex method
  * class Laser extends Line {
  *
- *   constructor(props) {
- *     // call super to set x1, y1, x2, y2 (and data, if given)
- *     super(props);
- *     this.color = props.color;
+ *   constructor(color, x1, y1, x2, y2) {
+ *     super({ x1, y1, x2, y2 });
+ *     this.color = color;
  *   }
  * }
  *
- * const laser = new Laser({
- *   color: 'green',
- *   x1: 10,
- *   y1: 20,
- *   x2: 30,
- *   y2: 40,
- * });
+ * const laser = new Laser('green', 10, 20, 30, 40);
  * ```
  *
- * @example With custom class and mapping {@link LineGeometry}:
+ * @example With custom class and mapping
  * ```javascript
  * // no need to extend if you don't implement LineGeometry
  * class Laser {
@@ -146,10 +139,9 @@ export interface LineProps<CustomDataType = void> extends LineGeometry {
  * const laser = new Laser('green');
  * ```
  *
- * @example With custom object that implements {@link LineGeometry}:
+ * @example With custom object (implements LineGeometry)
  * ```javascript
  * const player = {
- *   name: 'Jane',
  *   health: 100,
  *   x1: 10,
  *   y1: 20,
@@ -159,7 +151,7 @@ export interface LineProps<CustomDataType = void> extends LineGeometry {
  * });
  * ```
  *
- * @example With custom object and mapping {@link LineGeometry}:
+ * @example With custom object and mapping
  * ```javascript
  * // Note: this is not recommended but possible.
  * // Using this technique, each object would have it's own qtIndex method.

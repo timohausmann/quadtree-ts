@@ -35,7 +35,7 @@ export interface CircleProps<CustomDataType = void> extends CircleGeometry {
  * Class representing a Circle.
  * @typeParam CustomDataType - Type of the custom data property (optional, inferred automatically).
  *
- * @example Without custom data (JS/TS):
+ * @example Without custom data
  * ```typescript
  * const circle = new Circle({
  *   x: 100,
@@ -44,7 +44,7 @@ export interface CircleProps<CustomDataType = void> extends CircleGeometry {
  * });
  * ```
  *
- * @example With custom data (JS/TS):
+ * @example With custom data
  * ```javascript
  * const circle = new Circle({
  *   x: 100,
@@ -57,11 +57,11 @@ export interface CircleProps<CustomDataType = void> extends CircleGeometry {
  * });
  * ```
  *
- * @example With custom data (TS):
+ * @example With custom data (TS)
  * ```typescript
  * interface ObjectData {
- *   name: string
- *   health: number
+ *   name: string;
+ *   health: number;
  * }
  * const entity: ObjectData = {
  *   name: 'Jane',
@@ -85,27 +85,21 @@ export interface CircleProps<CustomDataType = void> extends CircleGeometry {
  * circle2.data = entity;
  * ```
  *
- * @example With custom class extending Circle (implements {@link CircleGeometry} (x, y, r)):
+ * @example With custom class extending Circle
  * ```javascript
- * // extending inherits the qtIndex method
+ * // extending inherits the geometry's properties and the qtIndex method
  * class Bomb extends Circle {
  *
- *   constructor(props) {
- *     // call super to set x, y, r (and data, if given)
- *     super(props);
- *     this.countdown = props.countdown;
+ *   constructor(countdown, x, y, r) {
+ *     super({ x, y, r });
+ *     this.countdown = countdown;
  *   }
  * }
  *
- * const bomb = new Bomb({
- *   countdown: 5,
- *   x: 10,
- *   y: 20,
- *   r: 30,
- * });
+ * const bomb = new Bomb(5, 10, 20, 30);
  * ```
  *
- * @example With custom class and mapping {@link CircleGeometry}:
+ * @example With custom class and mapping
  * ```javascript
  * // no need to extend if you don't implement CircleGeometry
  * class Bomb {
@@ -130,10 +124,9 @@ export interface CircleProps<CustomDataType = void> extends CircleGeometry {
  * const bomb = new Bomb(5);
  * ```
  *
- * @example With custom object that implements {@link CircleGeometry}:
+ * @example With custom object (implements CircleGeometry)
  * ```javascript
  * const player = {
- *   name: 'Jane',
  *   health: 100,
  *   x: 10,
  *   y: 20,
@@ -142,7 +135,7 @@ export interface CircleProps<CustomDataType = void> extends CircleGeometry {
  * });
  * ```
  *
- * @example With custom object and mapping {@link CircleGeometry}:
+ * @example With custom object and mapping
  * ```javascript
  * // Note: this is not recommended but possible.
  * // Using this technique, each object would have it's own qtIndex method.

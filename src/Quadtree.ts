@@ -369,9 +369,7 @@ export class Quadtree<ObjectsType extends Rectangle | Circle | Line | Indexable>
     }
 
     /**
-     * The opposite of a split: try to merge and dissolve subnodes.
-     * @beta
-     * @internal Mostly for internal use! You should only call this yourself if you know what you are doing.
+     * The opposite of a split: merge and dissolve subnodes (when total object count doesn't exceed maxObjects).
      *
      * @example Manual join:
      * ```typescript
@@ -388,8 +386,8 @@ export class Quadtree<ObjectsType extends Rectangle | Circle | Line | Indexable>
         // recursive join
         let allObjects = Array.from(this.objects);
         for (let i = 0; i < this.nodes.length; i++) {
-            const bla = this.nodes[i].join();
-            allObjects = allObjects.concat(bla);
+            const tmp = this.nodes[i].join();
+            allObjects = allObjects.concat(tmp);
         }
 
         // remove duplicates

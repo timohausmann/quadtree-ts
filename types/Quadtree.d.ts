@@ -234,9 +234,7 @@ export declare class Quadtree<ObjectsType extends Rectangle | Circle | Line | In
      */
     update(obj: ObjectsType, fast?: boolean): void;
     /**
-     * The opposite of a split: try to merge and dissolve subnodes.
-     * @beta
-     * @internal Mostly for internal use! You should only call this yourself if you know what you are doing.
+     * The opposite of a split: merge and dissolve subnodes (when total object count doesn't exceed maxObjects).
      *
      * @example Manual join:
      * ```typescript
