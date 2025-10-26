@@ -110,7 +110,7 @@ export class Quadtree<ObjectsType extends Rectangle|Circle|Line|Indexable> {
      * @defaultValue `[]`
      * @readonly
      */
-    nodes: Quadtree<ObjectsType>[];
+    nodes: this[];
 
     /**
      * Quadtree Constructor
@@ -177,10 +177,12 @@ export class Quadtree<ObjectsType extends Rectangle|Circle|Line|Indexable> {
             { x: x + width, y: y + height },
         ];
 
+        const Constructor = this.constructor as new (props: QuadtreeProps, level: number) => this;
+
         for(let i=0; i < 4; i++) {
-            this.nodes[i] = new Quadtree({
-                x: coords[i].x, 
-                y: coords[i].y, 
+            this.nodes[i] =  new Constructor({
+                x: coords[i].x,
+                y: coords[i].y,
                 width,
                 height,
                 maxObjects: this.maxObjects,
