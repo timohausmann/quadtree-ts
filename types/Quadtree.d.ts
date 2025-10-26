@@ -96,7 +96,7 @@ export declare class Quadtree<ObjectsType extends Rectangle | Circle | Line | In
      * @defaultValue `[]`
      * @readonly
      */
-    nodes: Quadtree<ObjectsType>[];
+    nodes: this[];
     /**
      * Quadtree Constructor
      * @param props - bounds and properties of the node

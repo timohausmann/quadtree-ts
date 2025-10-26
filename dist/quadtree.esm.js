@@ -79,8 +79,9 @@ class Quadtree {
             { x: x, y: y + height },
             { x: x + width, y: y + height },
         ];
+        const Constructor = this.constructor;
         for (let i = 0; i < 4; i++) {
-            this.nodes[i] = new Quadtree({
+            this.nodes[i] = new Constructor({
                 x: coords[i].x,
                 y: coords[i].y,
                 width,
