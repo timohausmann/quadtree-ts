@@ -30,6 +30,16 @@
   "keywords": [
     "quadtree"
   ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist/",
+    "types/",
+    "src/",
+    "README.md",
+    "LICENSE.md"
+  ],
   "directories": {
     "example": "docs"
   },

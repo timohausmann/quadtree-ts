@@ -1,4 +1,9 @@
-# quadtree-ts 
+# quadtree-ts
+
+[![CI](https://github.com/timohausmann/quadtree-ts/actions/workflows/ci.yml/badge.svg)](https://github.com/timohausmann/quadtree-ts/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/@timohausmann/quadtree-ts.svg)](https://www.npmjs.com/package/@timohausmann/quadtree-ts)
+[![npm downloads](https://img.shields.io/npm/dw/@timohausmann/quadtree-ts.svg)](https://www.npmjs.com/package/@timohausmann/quadtree-ts)
+[![Node.js Version](https://img.shields.io/node/v/@timohausmann/quadtree-ts.svg)](https://nodejs.org)
 
 * [Docs and examples](#docs-and-examples)
 * [Install](#install)
@@ -26,7 +31,7 @@ This is a fork of [@timohausmann/quadtree-js](https://github.com/timohausmann/qu
 Install this module via [npm](https://www.npmjs.com/package/@timohausmann/quadtree-ts) and import or require it:
 
 ```bash
-npm install --save-dev @timohausmann/quadtree-ts
+npm install @timohausmann/quadtree-ts
 ```
 
 ```javascript

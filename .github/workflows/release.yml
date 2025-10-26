@@ -1,0 +1,82 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write  # Required for creating GitHub releases
+  id-token: write  # Required for OIDC/npm trusted publishing
+
+jobs:
+  release:
+    name: Release to npm and GitHub
+    runs-on: ubuntu-latest
+    environment: npm-publish
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+      
+      # Ensure npm 11.5.1 or later for trusted publishing
+      - name: Update npm
+        run: npm install -g npm@latest
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run linting
+        run: npm run lint
+      
+      - name: Check formatting
+        run: npm run format:check
+      
+      - name: Run tests
+        run: npm test
+      
+      - name: Build package
+        run: npm run build
+      
+      - name: Publish to npm
+        run: npm publish --access public
+      
+      - name: Deploy docs to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages
+          enable_jekyll: true
+      
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Release v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## Changes in v${{ steps.version.outputs.VERSION }}
+            
+            See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
+            
+            ### Installation
+            ```bash
+            npm install @timohausmann/quadtree-ts@${{ steps.version.outputs.VERSION }}
+            ```
+            
+            ### CDN Links
+            - unpkg: https://unpkg.com/@timohausmann/quadtree-ts@${{ steps.version.outputs.VERSION }}/dist/quadtree.umd.full.js
+            - jsDelivr: https://cdn.jsdelivr.net/npm/@timohausmann/quadtree-ts@${{ steps.version.outputs.VERSION }}/dist/quadtree.umd.full.js
+          draft: false
+          prerelease: false
+
