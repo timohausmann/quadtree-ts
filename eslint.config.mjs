@@ -41,5 +41,6 @@ export default defineConfig([{
         "prettier/prettier": "error",
         "no-console": "error",
         "tsdoc/syntax": "warn",
+        "spaced-comment": "warn",
     },
 }]);
