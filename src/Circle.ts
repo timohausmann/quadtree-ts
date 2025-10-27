@@ -205,7 +205,7 @@ export class Circle<CustomDataType = void> implements CircleGeometry, Indexable 
             x2 = node.x + w2,
             y2 = node.y + h2;
 
-        //an array of node origins where the array index equals the node index
+        // an array of node origins where the array index equals the node index
         const nodes = [
             [x2, node.y],
             [node.x, node.y],
@@ -213,7 +213,7 @@ export class Circle<CustomDataType = void> implements CircleGeometry, Indexable 
             [x2, y2],
         ];
 
-        //test all nodes for circle intersections
+        // test all nodes for circle intersections
         for (let i = 0; i < nodes.length; i++) {
             if (
                 Circle.intersectRect(

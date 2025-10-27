@@ -224,7 +224,7 @@ export class Line<CustomDataType = void> implements LineGeometry, Indexable {
             x2 = node.x + w2,
             y2 = node.y + h2;
 
-        //an array of node origins where the array index equals the node index
+        // an array of node origins where the array index equals the node index
         const nodes = [
             [x2, node.y],
             [node.x, node.y],
@@ -232,7 +232,7 @@ export class Line<CustomDataType = void> implements LineGeometry, Indexable {
             [x2, y2],
         ];
 
-        //test all nodes for line intersections
+        // test all nodes for line intersections
         for (let i = 0; i < nodes.length; i++) {
             if (
                 Line.intersectRect(

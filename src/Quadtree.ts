@@ -206,7 +206,7 @@ export class Quadtree<ObjectsType extends Rectangle | Circle | Line | Indexable>
      * @param obj - Object to be added.
      */
     insert(obj: ObjectsType): void {
-        //if we have subnodes, call insert on matching subnodes
+        // if we have subnodes, call insert on matching subnodes
         if (this.nodes.length) {
             const indexes = this.getIndex(obj);
 
@@ -216,17 +216,17 @@ export class Quadtree<ObjectsType extends Rectangle | Circle | Line | Indexable>
             return;
         }
 
-        //otherwise, store object here
+        // otherwise, store object here
         this.objects.push(obj);
 
-        //maxObjects reached
+        // maxObjects reached
         if (this.objects.length > this.maxObjects && this.level < this.maxLevels) {
-            //split if we don't already have subnodes
+            // split if we don't already have subnodes
             if (!this.nodes.length) {
                 this.split();
             }
 
-            //add all objects to their corresponding subnode
+            // add all objects to their corresponding subnode
             for (let i = 0; i < this.objects.length; i++) {
                 const indexes = this.getIndex(this.objects[i]);
                 for (let k = 0; k < indexes.length; k++) {
@@ -234,7 +234,7 @@ export class Quadtree<ObjectsType extends Rectangle | Circle | Line | Indexable>
                 }
             }
 
-            //clean up this node
+            // clean up this node
             this.objects = [];
         }
     }
@@ -256,7 +256,7 @@ export class Quadtree<ObjectsType extends Rectangle | Circle | Line | Indexable>
         const indexes = this.getIndex(obj);
         let returnObjects = this.objects;
 
-        //if we have subnodes, retrieve their objects
+        // if we have subnodes, retrieve their objects
         if (this.nodes.length) {
             for (let i = 0; i < indexes.length; i++) {
                 returnObjects = returnObjects.concat(this.nodes[indexes[i]].retrieve(obj));

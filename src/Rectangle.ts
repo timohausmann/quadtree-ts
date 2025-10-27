@@ -221,22 +221,22 @@ export class Rectangle<CustomDataType = void> implements RectangleGeometry, Inde
             endIsEast = this.x + this.width > boundsCenterX,
             endIsSouth = this.y + this.height > boundsCenterY;
 
-        //top-right quad
+        // top-right quad
         if (startIsNorth && endIsEast) {
             indexes.push(0);
         }
 
-        //top-left quad
+        // top-left quad
         if (startIsWest && startIsNorth) {
             indexes.push(1);
         }
 
-        //bottom-left quad
+        // bottom-left quad
         if (startIsWest && endIsSouth) {
             indexes.push(2);
         }
 
-        //bottom-right quad
+        // bottom-right quad
         if (endIsEast && endIsSouth) {
             indexes.push(3);
         }

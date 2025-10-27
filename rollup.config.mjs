@@ -16,7 +16,7 @@ export default [
         },
         plugins: [
             typescript({ tsconfig: './tsconfig.json' }), // so Rollup can convert TypeScript to JavaScript
-            terser(), //minify,
+            terser(), // minify,
             banner2(() => `/* ${pkg.repository.url} v${pkg.version} */\n`),
         ],
     },
@@ -31,7 +31,7 @@ export default [
         },
         plugins: [
             typescript({ tsconfig: './tsconfig.json' }), // so Rollup can convert TypeScript to JavaScript
-            terser(), //minify,
+            terser(), // minify,
             banner2(() => `/* ${pkg.repository.url} v${pkg.version} */\n`),
             // copy the full version deferred
             copy({
