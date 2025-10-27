@@ -1,0 +1,244 @@
+<!doctype html>
+<html>
+	<head>
+		<title>quadtree-ts – many-to-many example</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Fira+Sans&display=swap" rel="stylesheet">
+        
+        <!-- prism syntax highlighting (https://prismjs.com/) -->
+		<link 
+            rel="stylesheet" 
+            href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/themes/prism.min.css" 
+            integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" 
+            crossorigin="anonymous" />
+
+        <link rel="stylesheet" href="../assets/examples.css" />
+        
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+	</head>
+	<body>
+
+        <div class="panel">
+
+            <div>
+                <h2>quadtree-ts</h2>
+                <h3 class="m1">2.3.0</h3>
+                
+                <nav class="m4">
+                    <h4>Examples</h4>
+                    <ul class="links">
+                        <li><a class="link" href="../simple">Simple</a></li>
+                        <li><a class="link" href="../dynamic">Dynamic</a></li>
+                        <li><a class="link" href="../update">Update <span class="tag">new (2.2.0)</span></a></li>
+                        <li><a class="link" href="../many">Many-to-many</a></li>
+                        <li><a class="link" href="../primitives">Primitives</a></li>
+                        <li><a class="link" href="../class-extension">Class Extension</a></li>
+                        <li><a class="link" href="../property-mapping">Property Mapping</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <footer>
+                <nav>
+                    <h4>Links</h4>
+                    <ul class="links">
+                        <li><a class="link" href="/quadtree-ts/">Home</a></li>
+                        <li><a class="link" href="https://github.com/timohausmann/quadtree-ts#readme">Readme</a></li>
+                        <li><a class="link" href="https://github.com/timohausmann/quadtree-ts/blob/main/CHANGELOG.md">Changelog</a></li>
+                        <li><a class="link" href="/quadtree-ts/documentation">API Docs</a></li>
+                        <li><a href="https://github.com/timohausmann/quadtree-ts" 
+                            title="quadtree-ts at GitHub"
+                            class="link icon"
+                            target="_blank" rel="noopener noreferrer">
+                            <img src="../assets/logo-github.svg" alt="GitHub Logo" />
+                            GitHub
+                        </a></li>
+                        <li><a href="https://www.npmjs.com/package/@timohausmann/quadtree-ts" 
+                            title="quadtree-ts at npm"
+                            class="link icon"
+                            target="_blank" rel="noopener noreferrer">
+                            <img src="../assets/logo-npm.svg" alt="npm Logo" />
+                            npm
+                        </a></li>
+                        <!--li><a href="https://twitter.com/timohausmann" 
+                            title="quadtree-ts author at Twitter"
+                            class="link icon"
+                            target="_blank" rel="noopener noreferrer">
+                            <img src="../assets/logo-twitter.svg" alt="Twitter Logo" />
+                            Twitter
+                        </a></li-->
+                    </ul>
+                </nav>
+            </footer>
+        </div>
+
+        <main class="content">
+            <h1 class="m1">Many-to-many Example</h1>
+            <div class="canvas m2">
+                <canvas id="canvas" width="640" height="480"></canvas>
+
+                <div style="display: flex; justify-content: space-between;">
+                    <div>
+                        <input type="checkbox" id="toggle-quadtree" checked />
+                        <label for="toggle-quadtree">Use Quadtree</label>
+                    </div>
+
+                    <div>
+                        <label for="amount" style="margin-left: auto;">Object amount</label>
+                        <select id="amount">
+                            <option>400</option>
+                            <option>800</option>
+                            <option selected>1600</option>
+                            <option>3200</option>
+                            <option>4800</option>
+                            <option>6400</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <p class="m1">
+				This example shows how Quadtrees can be used for many-to-many checks. All objects can collide with each other. 
+            </p>
+            
+            <p class="m1">
+                Two loops are neccessary to first insert all objects into the tree <code>[2]</code> 
+                and then check each object for collisions <code>[3]</code>.
+			</p>
+
+            <p class="m1">
+                &bull; If <em>Use Quadtree</em> is enabled, every objects is only checked against objects from the same node(s).<br />
+                &bull; If <em>Use Quadtree</em> is disabled, every object is checked against ever other object.
+            </p>
+            <p class="m2">
+                The following code is reduced to the most important parts.
+                <a href="https://github.com/timohausmann/quadtree-ts/tree/main/docs/examples/many/" 
+                    target="_blank" rel="noopener noreferrer">View the full script.js of this example on GitHub</a>.
+            </p>
+
+            <h4>HTML</h4>
+            <pre><code class="language-html">&lt;canvas id="canvas" width="640" height="480"&gt;&lt;/canvas&gt;</code></pre>
+
+            <h4>JS</h4>
+			<pre><code class="language-javascript">// Create a new Quadtree
+const tree = new Quadtree({
+	width: 640,
+	height: 480,
+});
+
+// Store all objects in an array
+const myObjects = [];
+
+// Create some objects
+for(let i=0;i&lt;200;i++) {
+    const rectangle = new Quadtree.Rectangle({
+        x: Math.random() * 640,
+        y: Math.random() * 480,
+        width: 4 + Math.random() * 28,
+        height: 4 + Math.random() * 28,
+
+        // Custom data: velocity for x and y, 
+        // and a check boolean to flag colliding objects
+        data: {
+            vx: -0.5 + Math.random(),
+            vy: -0.5 + Math.random(),
+            check: false,
+        },
+    });
+
+    myObjects.push(rectangle);
+}
+
+// Enable/disable Quadtree
+let useQuadtree = true;
+document.querySelector('#toggle-quadtree').addEventListener('click', () => useQuadtree = !useQuadtree);
+
+// Main loop
+function loop() {
+    
+    // [1] Clear the tree
+    if(useQuadtree) {
+        tree.clear();
+    }
+    
+    // [2] Update myObjects and insert them into the tree again
+    myObjects.forEach(obj => {
+
+        // Update the position
+        obj.x += obj.data.vx;
+        obj.y += obj.data.vy;
+
+        // Reset retrieve flag
+        obj.data.check = false;
+        
+        if(useQuadtree) {
+            tree.insert(obj);
+        }
+    });
+
+    // [3] now that the tree is filled, we have to check each object for collisions
+    for(let i=0;i&lt;myObjects.length;i++) {
+
+        const myObject = myObjects[i];
+
+        // [4] first, get all candidates that share nodes with myObject
+        // (or all objects, if useQuadtree is false)
+        const candidates = useQuadtree ? tree.retrieve(myObject) : myObjects;
+
+        // [5] let's check them for actual collision
+        for(let k=0;k&lt;candidates.length;k++) {
+
+            const myCandidate = candidates[k];
+
+            // [6] since all objects are inside the tree, 
+            // we will also retrieve the current object itself.
+            // That's a collision case we want to skip.
+            if(myObject === myCandidate) continue;
+
+            // [7] check for actual intersection
+            const intersect = getIntersection(myObject, myCandidate);
+            
+            //[8] if they actually intersect, we can take further 
+            //actions. In this script, colliding objects will turn 
+            //green and change velocity 
+            if(intersect) {
+                // &hellip; take actions
+            }
+        }
+    }
+
+    // Draw scene
+    draw();
+    
+    window.requestAnimationFrame(loop);
+};
+
+loop();
+
+</code></pre>
+
+			<p>
+				To see the full example code please check the page source or 
+				<a href="https://github.com/timohausmann/quadtree-ts/tree/main/docs/examples/many/" 
+                    target="_blank" rel="noopener noreferrer">visit this page on github</a>.
+			</p>
+        </main>
+
+        <!-- prism syntax highlighting -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/prism.min.js" 
+            integrity="sha512-WkVkkoB31AoI9DAk6SEEEyacH9etQXKUov4JRRuM1Y681VsTq7jYgrRw06cbP6Io7kPsKx+tLFpH/HXZSZ2YEQ==" 
+            crossorigin="anonymous"></script>
+
+        <!-- stats.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/17/Stats.js" 
+            integrity="sha512-PKGeQYRMLu1YBq2unBh8dSonpTsgd5MOJqggUn9S/MNywjMbo5F/PuBoYRdNYBjcOHrboHG2r2zlQQEfKikHSA==" 
+            crossorigin="anonymous" 
+            type="module"
+            referrerpolicy="no-referrer"></script>
+
+        <script src="../assets/quadtree.umd.full.js"></script>
+        <script src="../assets/examples.js"></script>
+        <script src="./script.js" type="module"></script>
+	</body>
+</html>

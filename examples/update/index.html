@@ -1,0 +1,206 @@
+<!doctype html>
+<html>
+	<head>
+		<title>quadtree-ts – update example</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Fira+Sans&display=swap" rel="stylesheet">
+        
+        <!-- prism syntax highlighting (https://prismjs.com/) -->
+		<link 
+            rel="stylesheet" 
+            href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/themes/prism.min.css" 
+            integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" 
+            crossorigin="anonymous" />
+
+        <link rel="stylesheet" href="../assets/examples.css" />
+        
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+	</head>
+	<body>
+
+        <div class="panel">
+
+            <div>
+                <h2>quadtree-ts</h2>
+                <h3 class="m1">2.3.0</h3>
+                
+                <nav class="m4">
+                    <h4>Examples</h4>
+                    <ul class="links">
+                        <li><a class="link" href="../simple">Simple</a></li>
+                        <li><a class="link" href="../dynamic">Dynamic</a></li>
+                        <li><a class="link" href="../update">Update <span class="tag">new (2.2.0)</span></a></li>
+                        <li><a class="link" href="../many">Many-to-many</a></li>
+                        <li><a class="link" href="../primitives">Primitives</a></li>
+                        <li><a class="link" href="../class-extension">Class Extension</a></li>
+                        <li><a class="link" href="../property-mapping">Property Mapping</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <footer>
+                <nav>
+                    <h4>Links</h4>
+                    <ul class="links">
+                        <li><a class="link" href="/quadtree-ts/">Home</a></li>
+                        <li><a class="link" href="https://github.com/timohausmann/quadtree-ts#readme">Readme</a></li>
+                        <li><a class="link" href="https://github.com/timohausmann/quadtree-ts/blob/main/CHANGELOG.md">Changelog</a></li>
+                        <li><a class="link" href="/quadtree-ts/documentation">API Docs</a></li>
+                        <li><a href="https://github.com/timohausmann/quadtree-ts" 
+                            title="quadtree-ts at GitHub"
+                            class="link icon"
+                            target="_blank" rel="noopener noreferrer">
+                            <img src="../assets/logo-github.svg" alt="GitHub Logo" />
+                            GitHub
+                        </a></li>
+                        <li><a href="https://www.npmjs.com/package/@timohausmann/quadtree-ts" 
+                            title="quadtree-ts at npm"
+                            class="link icon"
+                            target="_blank" rel="noopener noreferrer">
+                            <img src="../assets/logo-npm.svg" alt="npm Logo" />
+                            npm
+                        </a></li>
+                        <!--li><a href="https://twitter.com/timohausmann" 
+                            title="quadtree-ts author at Twitter"
+                            class="link icon"
+                            target="_blank" rel="noopener noreferrer">
+                            <img src="../assets/logo-twitter.svg" alt="Twitter Logo" />
+                            Twitter
+                        </a></li-->
+                    </ul>
+                </nav>
+            </footer>
+        </div>
+
+        <main class="content">
+            <h1 class="m1">Update Example</h1>
+            <div class="canvas m2">
+                <canvas id="canvas" width="640" height="480"></canvas>
+            </div>
+
+            <p class="m1">
+				This example demonstrates the usage of update.
+            </p>
+            <p class="m1">
+                It may be useful to only update single objects and not clear and regenerate 
+                the entire tree each time something changes, like in the dynamic example.
+                Use this method when most objects are static (position/size never change).
+			</p>
+            <p class="m2">
+                The following code is reduced to the most important parts.
+                <a href="https://github.com/timohausmann/quadtree-ts/tree/main/docs/examples/update/" 
+                    target="_blank" rel="noopener noreferrer">View the full script.js of this example on GitHub</a>.
+            </p>
+
+            <h4>HTML</h4>
+            <pre><code class="language-html">&lt;canvas id="canvas" width="640" height="480"&gt;&lt;/canvas&gt;</code></pre>
+
+            <h4>JS</h4>
+			<pre><code class="language-javascript">// Create a new Quadtree
+const tree = new Quadtree({
+	width: 640,
+	height: 480,
+    maxObjects: 9,
+});
+
+// Store all objects in an array
+const myObjects = [];
+let myCursor, myCircle;
+
+// Add demo objects
+createObjects();
+loop();
+
+// Main loop
+function loop() {
+
+    // Update the circle position
+    myCircle.x = 320 + Math.cos(Date.now()/1000) * 176;
+    myCircle.y = 240 + Math.sin(Date.now()/1000) * 176;
+
+    // 👋 Call tree.update to remove and re-insert the object 
+    // into the tree at current x, y values
+    tree.update(myCircle);
+    
+    // Reset myObjects check property
+    myObjects.forEach(obj => {
+        obj.data.check = false;
+    });
+    
+    // Retrieve all objects that share nodes with the cursor
+    if(isMouseover) {
+        const candidates = tree.retrieve(myCursor);
+
+        // Flag retrieved objects
+        candidates.forEach(obj => obj.data.check = true);
+    }
+
+    // Draw scene
+    draw();
+    
+    window.requestAnimationFrame(loop);
+};
+
+createObjects() {
+    // A Rectangle representing the mouse cursor
+    myCursor = new Quadtree.Rectangle({
+        x: 0,
+        y: 0,
+        width: 32,
+        height: 32,
+    });
+    
+    // Create some "static" objects
+    const cols = 6;
+    const rows = 6;
+    for(let x=0; x &lt; cols; x++) {
+        for(let y=0; y &lt; rows; y++) {
+            const rectangle = new Quadtree.Rectangle({
+                x: 72 + (x / cols) * (canvas.width-72),
+                y: 56 + (y / rows) * (canvas.height-56),
+                width: 16,
+                height: 16,
+                data: {
+                    check: false,
+                },
+            });
+    
+            myObjects.push(rectangle);
+            tree.insert(rectangle);
+        }
+    }
+    
+    // Create a moving circle
+    myCircle = new Quadtree.Circle({
+        x: 32,
+        y: 240,
+        r: 32,
+        data: {
+            check: false,
+        },
+    });
+    
+    myObjects.push(myCircle);
+    tree.insert(myCircle);
+}
+
+</code></pre>
+
+			<p>
+				To see the full example code please check the page source or 
+				<a href="https://github.com/timohausmann/quadtree-ts/tree/main/docs/examples/update/" 
+                    target="_blank" rel="noopener noreferrer">visit this page on github</a>.
+			</p>
+        </main>
+
+        <!-- prism syntax highlighting -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.21.0/prism.min.js" 
+            integrity="sha512-WkVkkoB31AoI9DAk6SEEEyacH9etQXKUov4JRRuM1Y681VsTq7jYgrRw06cbP6Io7kPsKx+tLFpH/HXZSZ2YEQ==" 
+            crossorigin="anonymous"></script>
+
+        <script src="../assets/quadtree.umd.full.js"></script>
+        <script src="../assets/examples.js"></script>
+        <script src="./script.js"></script>
+	</body>
+</html>
