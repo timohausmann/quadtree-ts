@@ -2,7 +2,6 @@ import { Quadtree } from '../../src/Quadtree';
 import { Rectangle } from '../../src/Rectangle';
 
 describe('Quadtree.update', () => {
-
     test('is a function', () => {
         const tree = new Quadtree({ width: 100, height: 100 });
         expect(typeof tree.update).toBe('function');
@@ -23,7 +22,7 @@ describe('Quadtree.update', () => {
         tree.insert(rect1);
         tree.insert(rect2);
         tree.insert(rect3);
-        
+
         expect(tree.nodes[1].objects).toEqual([rect1, rect2, rect3]);
 
         rect1.x = 75;
@@ -32,9 +31,8 @@ describe('Quadtree.update', () => {
 
         expect(tree.nodes[1].objects).toEqual([rect2, rect3]);
         expect(tree.nodes[3].objects).toEqual([rect1]);
-        
     });
-  
+
     test('calls remove and insert', () => {
         const tree = new Quadtree({ width: 100, height: 100, maxLevels: 1, maxObjects: 4 });
         const rect1 = new Rectangle({ x: 25, y: 25, width: 10, height: 10 });
@@ -42,10 +40,10 @@ describe('Quadtree.update', () => {
 
         jest.spyOn(tree, 'remove');
         jest.spyOn(tree, 'insert');
-        
+
         tree.update(rect1);
 
         expect(tree.remove).toHaveBeenCalledTimes(1);
         expect(tree.insert).toHaveBeenCalledTimes(1);
-    });  
+    });
 });

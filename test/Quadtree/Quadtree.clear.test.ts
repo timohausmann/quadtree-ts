@@ -2,7 +2,6 @@ import { Quadtree } from '../../src/Quadtree';
 import { Rectangle } from '../../src/Rectangle';
 
 describe('Quadtree.clear', () => {
-
     test('is a function', () => {
         const tree = new Quadtree({ width: 100, height: 100 });
         expect(typeof tree.clear).toBe('function');

@@ -2,7 +2,6 @@ import { Quadtree } from '../../src/Quadtree';
 import { Rectangle } from '../../src/Rectangle';
 
 describe('Quadtree.join', () => {
-
     test('is a function', () => {
         const tree = new Quadtree({ width: 100, height: 100 });
         expect(typeof tree.join).toBe('function');
@@ -23,14 +22,14 @@ describe('Quadtree.join', () => {
         tree.join();
         expect(tree.nodes.length).toBe(0);
     });
-  
+
     test('calls join recursively', () => {
         const tree = new Quadtree({ width: 100, height: 100, maxLevels: 1, maxObjects: 4 });
-        
+
         tree.split();
-        
+
         const rects: Rectangle[] = [];
-        for(let i=0; i<5; i++) {
+        for (let i = 0; i < 5; i++) {
             rects[i] = new Rectangle({ x: 0, y: 0, width: 100, height: 100 });
             tree.insert(rects[i]);
         }
@@ -48,5 +47,5 @@ describe('Quadtree.join', () => {
         expect(tree.nodes[1].join).toHaveBeenCalledTimes(1);
         expect(tree.nodes[2].join).toHaveBeenCalledTimes(1);
         expect(tree.nodes[3].join).toHaveBeenCalledTimes(1);
-    });  
+    });
 });

@@ -2,7 +2,6 @@ import { Quadtree } from '../../src/Quadtree';
 import { Rectangle } from '../../src/Rectangle';
 
 describe('Quadtree.getIndex', () => {
-
     test('is a function', () => {
         const tree = new Quadtree({ width: 100, height: 100 });
         expect(typeof tree.getIndex).toBe('function');
@@ -14,7 +13,7 @@ describe('Quadtree.getIndex', () => {
         expect(Array.isArray(tree.getIndex(rect))).toBe(true);
     });
 
-    /*test('can handle anonymous objects (falls back to Rectangle)', () => {
+    /* test('can handle anonymous objects (falls back to Rectangle)', () => {
         
         const tree = new Quadtree({ width: 100, height: 100 });
         const rect = { x: 75, y: 25, width: 10, height: 10 };
