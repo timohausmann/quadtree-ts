@@ -66,6 +66,7 @@ const myTree = new Quadtree({
     x: 0,           // optional, default:  0
     y: 0,           // optional, default:  0
     maxObjects: 10, // optional, default: 10
+    minLevels: 0,   // optional, default:  0
     maxLevels: 4    // optional, default:  4
 });
 ``` 
@@ -78,10 +79,13 @@ The tree and each node may have four subnodes that are arranged like this:
 
 Optional properties: 
 * `maxObjects` – defines how many objects a node can hold before it splits 
-* `maxLevels` – defines the deepest level subnode
+* `minLevels` – define a minimum nesting level
+* `maxLevels` – limits the deepest nesting level
 * `x` and `y` – coordinate offset
 
 I recommend using low values for `maxLevels` because each level will quadruple the possible amount of nodes. Using lower values for `maxLevels` increases performance but may return more candidates. Finetuning these values depends on your 2D space, the amount and size of the objects and your retrieving areas. 
+
+`minLevels` is helpful when you want a guaranteed subnode depth, regardless of the number of objects in the tree. 
 
 Insert elements in the Quadtree:
 ```javascript

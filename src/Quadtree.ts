@@ -36,6 +36,12 @@ export interface QuadtreeProps {
     maxObjects?: number;
 
     /**
+     * Minimum nesting levels of the root Quadtree node.
+     * @defaultValue `0`
+     */
+    minLevels?: number;
+
+    /**
      * Total max nesting levels of the root Quadtree node.
      * @defaultValue `4`
      */
@@ -53,6 +59,7 @@ export interface QuadtreeProps {
  *   x: 0,           // optional, default:  0
  *   y: 0,           // optional, default:  0
  *   maxObjects: 10, // optional, default: 10
+ *   minLevels: 0,   // optional, default:  0
  *   maxLevels: 4,   // optional, default:  4
  * });
  * ```
@@ -81,6 +88,13 @@ export class Quadtree<ObjectsType extends Rectangle | Circle | Line | Indexable>
      * @readonly
      */
     maxObjects: number;
+
+    /**
+     * Minimum nesting levels of the root Quadtree node.
+     * @defaultValue `0`
+     * @readonly
+     */
+    minLevels: number;
 
     /**
      * Total max nesting levels of the root Quadtree node.
@@ -123,11 +137,22 @@ export class Quadtree<ObjectsType extends Rectangle | Circle | Line | Indexable>
             height: props.height,
         };
         this.maxObjects = typeof props.maxObjects === 'number' ? props.maxObjects : 10;
+        this.minLevels = typeof props.minLevels === 'number' ? props.minLevels : 0;
         this.maxLevels = typeof props.maxLevels === 'number' ? props.maxLevels : 4;
         this.level = level;
 
+        if (this.minLevels > this.maxLevels) {
+            throw new Error(
+                `minLevels (${this.minLevels}) must be less than maxLevels (${this.maxLevels})`
+            );
+        }
+
         this.objects = [];
         this.nodes = [];
+
+        if (this.level < this.minLevels) {
+            this.split();
+        }
     }
 
     /**
@@ -183,6 +208,7 @@ export class Quadtree<ObjectsType extends Rectangle | Circle | Line | Indexable>
                     width,
                     height,
                     maxObjects: this.maxObjects,
+                    minLevels: this.minLevels,
                     maxLevels: this.maxLevels,
                 },
                 level
@@ -219,12 +245,10 @@ export class Quadtree<ObjectsType extends Rectangle | Circle | Line | Indexable>
         // otherwise, store object here
         this.objects.push(obj);
 
-        // maxObjects reached
+        // maxObjects exceeded and can still split deeper
         if (this.objects.length > this.maxObjects && this.level < this.maxLevels) {
-            // split if we don't already have subnodes
-            if (!this.nodes.length) {
-                this.split();
-            }
+            // create subnodes
+            this.split();
 
             // add all objects to their corresponding subnode
             for (let i = 0; i < this.objects.length; i++) {
@@ -317,7 +341,7 @@ export class Quadtree<ObjectsType extends Rectangle | Circle | Line | Indexable>
             this.nodes[i].remove(obj);
         }
 
-        // remove all empty subnodes
+        // remove all empty subnodes (respects minLevels constraint)
         if (this.level === 0 && !fast) {
             this.join();
         }
@@ -393,7 +417,8 @@ export class Quadtree<ObjectsType extends Rectangle | Circle | Line | Indexable>
         // remove duplicates
         const uniqueObjects = Array.from(new Set(allObjects));
 
-        if (uniqueObjects.length <= this.maxObjects) {
+        // join if maxObjects and minLevels allow it
+        if (uniqueObjects.length <= this.maxObjects && this.level >= this.minLevels) {
             this.objects = uniqueObjects;
             for (let i = 0; i < this.nodes.length; i++) {
                 this.nodes[i].objects = [];
@@ -424,6 +449,8 @@ export class Quadtree<ObjectsType extends Rectangle | Circle | Line | Indexable>
             }
         }
 
-        this.nodes = [];
+        if (this.level >= this.minLevels) {
+            this.nodes = [];
+        }
     }
 }
