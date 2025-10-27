@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2025-10-27
+
+### Added
+* minLevels property ([#12](https://github.com/timohausmann/quadtree-ts/issues/15))
+* Prettier
+* GitHub Workflows for CI and release to npm with trusted publishing
+* GitHub Dependabot
+
+### Changed
+* Merged PR: allow Quadtree to be extended ([#18](https://github.com/timohausmann/quadtree-ts/pull/18))
+* Updated all dev dependencies
+* Remove dist/ and types/ from git repository
+* Reduce npm package size: only publish dist/, types/ and essential *.md files
+
 ## [2.2.2] - 2023-11-15
 
 ### Changed
