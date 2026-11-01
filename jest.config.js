@@ -6,6 +6,9 @@ module.exports = {
     globals: {
         'ts-jest': {
             useESM: true,
+            // Library tsconfig loads @types/node only. Tests use test/tsconfig.json,
+            // which adds @types/jest on top of those Node types.
+            tsconfig: '<rootDir>/test/tsconfig.json',
         },
     },
 };
