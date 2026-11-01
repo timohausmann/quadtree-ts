@@ -1,0 +1,13 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        // declarations only for npm publish.
+        "declaration": true,
+        "emitDeclarationOnly": true,
+        "outDir": "types",
+        // Drop the src/ prefix: src/index.esm.ts → types/index.esm.d.ts, not types/src/.
+        "rootDir": "src"
+    },
+    // Only the public ESM entry. Imported modules are pulled in from here.
+    "include": ["src/index.esm.ts"]
+}

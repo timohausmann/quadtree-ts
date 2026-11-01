@@ -18,7 +18,7 @@
     "format:check": "prettier --check \"{src,test}/**/*.{ts,js,json}\"",
     "test": "jest --verbose",
     "docs": "typedoc --out docs/documentation --readme none src/index.esm.ts",
-    "dts": "tsc src/index.esm.ts --declaration --emitDeclarationOnly --outDir ./types/"
+    "dts": "tsc -p tsconfig.dts.json"
   },
   "repository": {
     "type": "git",
