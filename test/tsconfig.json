@@ -1,0 +1,10 @@
+{
+    "extends": "../tsconfig.json",
+    "compilerOptions": {
+        // Replace the base `types` list. Tests need Jest globals as well as Node.
+        "types": ["jest", "node"],
+        // This config lives in test/, but the tests import from src/. Keep both under one root.
+        "rootDir": ".."
+    },
+    "include": ["./**/*.ts", "../src/**/*.ts"]
+}
